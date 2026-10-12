@@ -10,7 +10,7 @@ CAT = [
  ('Master Suite Sayulita/Persiana romana crema perfectamente alisada.png','suite-sayulita-sala','c'),
  ('Master Suite Sayulita/Cocina boutique cálida y serena.png','suite-sayulita-cocina','c'),
  ('Master Suite Flores/Dormitorio twin con vista al mar.png','suite-flores-recamara','hc'),
- ('Master Suite Flores/Desayuno elegante en terraza tropical.png','suite-flores-desayuno','c'),
+ ('Master Suite Flores/Desayuno elegante en terraza tropical.png','suite-flores-desayuno','hc'),
  ('Master Suite Flores/Interior de hotel mexicano con artesanías.png','suite-flores-interior','c'),
  ('Suite Agua/Elegancia cálida en dormitorio boutique.png','suite-agua-recamara','hc'),
  ('Suite Agua/Terraza tropical frente al océano.png','suite-agua-terraza','c'),
@@ -37,8 +37,9 @@ CAT = [
  ('ROOFTOP/Terraza de lujo al atardecer.png','casa-terraza-atardecer','c'),
  ('EXTRAS/Corredor boutique de piedra y luz cálida.png','casa-corredor','c'),
  ('ROOFTOP/Palapa boutique con luz natural serena.png','casa-palapa-rooftop','h'),
- ('ROOFTOP/Masaje tropical, sin telas ni botellas.png','casa-masaje','c'),
+ ('ROOFTOP/Masaje tropical, sin telas ni botellas.png','casa-masaje','hc'),
  ('EXTRAS/Hotel de lujo en hora azul.png','casa-hora-azul','c'),
+ ('ROOFTOP/Elegancia serena bajo la palapa.png','casa-sala-palapa','hc'),
  ('ROOFTOP/Terraza de lujo al atardecer.png','portada-atardecer','h'),
  ('ROOFTOP/Terraza de lujo al atardecer.png','portada-atardecer-vertical','c', (563, 0, 1331, 1024)),  # 3:4 sobre palmas y farol
 ]

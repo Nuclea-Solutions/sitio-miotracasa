@@ -741,3 +741,44 @@ picture{display:contents}
 }
 @media print{.reservar-movil{display:none!important}}
 
+/* ---------- carrusel de la portada ---------- */
+.seccion-carrusel{padding-block:var(--seccion);border-top:1px solid var(--filete)}
+.carrusel{max-width:var(--ancho);margin:clamp(2.5rem,5vw,4rem) auto 0;padding-inline:var(--gutter);outline-offset:6px}
+.carrusel .pista{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3.8fr) minmax(0,1fr);
+  gap:clamp(1rem,3vw,3.25rem);align-items:center;touch-action:pan-y;user-select:none;
+}
+.diapo{display:none;grid-row:1;margin:0;overflow:hidden;background:var(--filete)}
+.diapo img{width:100%;height:100%;object-fit:cover;-webkit-user-drag:none}
+.diapo.es-anterior,.diapo.es-siguiente{display:block;aspect-ratio:1/2;cursor:pointer}
+.diapo.es-anterior{grid-column:1}
+.diapo.es-siguiente{grid-column:3}
+.diapo.es-actual{display:block;grid-column:2;aspect-ratio:3/2}
+/* el cambio de nombre de animación la reinicia en cada paso */
+.diapo.es-actual img{animation:entra .9s cubic-bezier(.16,.84,.44,1)}
+.diapo.es-anterior img,.diapo.es-siguiente img{animation:entra-lado .9s ease}
+@keyframes entra{from{opacity:.35;transform:scale(1.04)}to{opacity:1;transform:none}}
+@keyframes entra-lado{from{opacity:.35}to{opacity:1}}
+.carrusel-pie{
+  text-align:center;margin-top:1.6rem;
+  font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--piedra);
+}
+.mandos{
+  display:grid;grid-template-columns:auto minmax(0,390px) auto;justify-content:center;align-items:center;
+  gap:clamp(1.25rem,4vw,3.5rem);margin-top:clamp(1.25rem,2.5vw,2rem);
+}
+.mandos button{width:44px;height:44px;display:grid;place-items:center;color:var(--tinta);transition:color .3s}
+.mandos button:hover{color:var(--laton)}
+.mandos svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round}
+.avance{position:relative;display:block;height:2px;background:var(--filete);overflow:hidden}
+.avance i{position:absolute;inset:0 auto 0 0;width:calc(100% / var(--n));background:var(--tinta);transition:transform .7s cubic-bezier(.16,.84,.44,1)}
+@media (max-width:640px){
+  .carrusel{padding-inline:0}
+  .carrusel .pista{grid-template-columns:1fr}
+  .diapo.es-anterior,.diapo.es-siguiente{display:none}
+  .diapo.es-actual{grid-column:1}
+  .carrusel-pie{font-size:.68rem;padding-inline:var(--gutter)}
+  .mandos{grid-template-columns:auto minmax(0,1fr) auto;padding-inline:calc(var(--gutter) - 12px)}
+}
+@media (prefers-reduced-motion:reduce){.diapo img,.avance i{animation:none;transition:none}}
+

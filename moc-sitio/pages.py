@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Construye todas las páginas. Uso:  python3 pages.py"""
 import os, json
-from build import (RAIZ, DOMINIO, RAIZ_WEB, SUITES, INCLUYE, T, RUTAS, foto, foto_url,
+from build import (RAIZ, DOMINIO, RAIZ_WEB, SUITES, INCLUYE, T, RUTAS, FOTOS, foto, foto_url,
                    base, url, alterno, cabeza, barra, pie, escribir)
 
 L = ('es', 'en')
@@ -100,6 +100,38 @@ def portada_video(lang, t):
   </section>
 '''
 
+# carrusel de la portada: foto y pie de cada imagen
+CARRUSEL = [
+ ('suite-flores-desayuno', ('Desayuno servido en la terraza','Breakfast served on the terrace')),
+ ('casa-masaje',           ('Masaje en la terraza','Massage on the terrace')),
+ ('suite-agua-jacuzzi',    ('Jacuzzi de la Suite Agua','The Suite Agua jacuzzi')),
+ ('casa-sala-palapa',      ('Sala bajo la palapa de la azotea','Lounge under the rooftop palapa')),
+]
+
+FLECHA = {'ant': '<path d="M15 5l-7 7 7 7"/>', 'sig': '<path d="M9 5l7 7-7 7"/>'}
+
+def carrusel(a, lang, diapos):
+    """Imagen central grande y las vecinas asomándose a los lados. Sin JS queda la primera."""
+    k = i(lang); n = len(diapos)
+    def estado(j):
+        return ' es-actual' if j == 0 else ' es-siguiente' if j == 1 else ' es-anterior' if j == n - 1 else ''
+    figs = '\n'.join(
+        f'      <figure class="diapo{estado(j)}" data-pie="{pie[k]}"{"" if j == 0 else " aria-hidden=\"true\""}>'
+        f'{foto(a, n_, lang, "carrusel", alt=FOTOS[n_][k])}</figure>'
+        for j, (n_, pie) in enumerate(diapos))
+    ant, sig = ('Imagen anterior','Previous image')[k], ('Imagen siguiente','Next image')[k]
+    return f"""    <div class="carrusel" role="region" aria-roledescription="{('carrusel','carousel')[k]}" aria-label="{('Imágenes de la casa','Images of the house')[k]}" tabindex="0" style="--n:{n}">
+      <div class="pista">
+{figs}
+      </div>
+      <p class="carrusel-pie" aria-live="polite">{diapos[0][1][k]}</p>
+      <div class="mandos">
+        <button class="ant" type="button" aria-label="{ant}"><svg viewBox="0 0 24 24" aria-hidden="true">{FLECHA['ant']}</svg></button>
+        <span class="avance" aria-hidden="true"><i></i></span>
+        <button class="sig" type="button" aria-label="{sig}"><svg viewBox="0 0 24 24" aria-hidden="true">{FLECHA['sig']}</svg></button>
+      </div>
+    </div>"""
+
 def pagina_index(lang):
     t = T[lang]; k = i(lang); x = TEXTOS['index']
     prof = 0
@@ -172,14 +204,13 @@ def pagina_index(lang):
     </div>
   </section>
 
-  <section class="bloque rev" aria-labelledby="t-des">
-    <div class="foto">{foto(a, 'casa-comedor-palapa', lang, 'bloque')}</div>
-    <div class="texto">
+  <section class="rev seccion-carrusel" aria-labelledby="t-des">
+    <div class="centro limite">
       <p class="rotulo">{'Desayuno' if lang=='es' else 'Breakfast'}</p>
       <h2 class="display" id="t-des">{x['des_t'][k]}</h2>
       <p>{x['des_p'][k]}</p>
-      <a class="liga" href="{url(lang,'casa',prof)}">{'Conocer la casa' if lang=='es' else 'See the house'}</a>
     </div>
+{carrusel(a, lang, CARRUSEL)}
   </section>
 
   {resenas(lang, prof)}

@@ -51,7 +51,7 @@ SUITES = [
 
  dict(slug='agua', tipo='suite', nombre='Suite Agua', precio=360,
       m2=60, huespedes=2,
-      fotos=('suite-agua-recamara', 'suite-agua-terraza', 'suite-agua-jacuzzi'),
+      fotos=('suite-agua-recamara', 'suite-agua-jacuzzi', 'suite-agua-terraza'),
       rasgo=('Jacuzzi para dos','Jacuzzi for two'),
       cama=('Jacuzzi','Jacuzzi'),
       orienta=('Planta baja, terraza propia','Ground floor, its own terrace'),
@@ -163,6 +163,7 @@ FOTOS = {
  'casa-palapa-rooftop':     ('Sala bajo la palapa de la azotea','Lounge under the rooftop palapa'),
  'casa-masaje':             ('Masaje en la terraza','Massage on the terrace'),
  'casa-hora-azul':          ('La casa en la hora azul','The house at blue hour'),
+ 'casa-sala-palapa':        ('Sala bajo la palapa de la azotea, con uvas sobre la mesa','Lounge under the rooftop palapa, with grapes on the table'),
  'portada-atardecer':       ('Atardecer sobre Sayulita y el mar desde la terraza de la casa','Sunset over Sayulita and the sea from the terrace of the house'),
 }
 
@@ -184,6 +185,7 @@ TAM = {
  'gal':      '(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw',
  'gal2':     '(max-width: 640px) 100vw, 50vw',
  'ubica':    '(max-width: 1000px) 100vw, 58vw',
+ 'carrusel': '(max-width: 640px) 100vw, 62vw',
 }
 
 DIR_FOTOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'fotos')

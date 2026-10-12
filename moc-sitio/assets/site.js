@@ -159,6 +159,45 @@
     });
   }
 
+  /* ---------- carrusel: la central grande y las vecinas a los lados ---------- */
+  document.querySelectorAll('.carrusel').forEach(function (car) {
+    var diapos = car.querySelectorAll('.diapo');
+    var n = diapos.length, actual = 0;
+    var pie = car.querySelector('.carrusel-pie');
+    var avance = car.querySelector('.avance i');
+    var mostrar = function (j) {
+      actual = (j + n) % n;
+      diapos.forEach(function (d, i) {
+        var dist = (i - actual + n) % n;
+        d.classList.toggle('es-actual', dist === 0);
+        d.classList.toggle('es-siguiente', dist === 1);
+        d.classList.toggle('es-anterior', dist === n - 1 && n > 2);
+        if (dist === 0) { d.removeAttribute('aria-hidden'); } else { d.setAttribute('aria-hidden', 'true'); }
+      });
+      if (pie) { pie.textContent = diapos[actual].getAttribute('data-pie'); }
+      if (avance) { avance.style.transform = 'translateX(' + (actual * 100) + '%)'; }
+    };
+    car.querySelector('.ant').addEventListener('click', function () { mostrar(actual - 1); });
+    car.querySelector('.sig').addEventListener('click', function () { mostrar(actual + 1); });
+    // las vecinas también se tocan para avanzar
+    diapos.forEach(function (d, i) {
+      d.addEventListener('click', function () { if (i !== actual) { mostrar(i); } });
+    });
+    car.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { mostrar(actual - 1); }
+      if (e.key === 'ArrowRight') { mostrar(actual + 1); }
+    });
+    // deslizar con el dedo
+    var x0 = null;
+    var pista = car.querySelector('.pista');
+    pista.addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+    pista.addEventListener('pointerup', function (e) {
+      if (x0 === null) { return; }
+      var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) { mostrar(actual + (dx < 0 ? 1 : -1)); }
+    });
+  });
+
   /* ---------- reservar fijo en teléfono, ya pasada la portada ---------- */
   var fijo = document.querySelector('.reservar-movil');
   if (fijo) {
