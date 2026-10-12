@@ -18,6 +18,7 @@ CAT = [
  ('Suite Palapa/Suite serena bajo techo de palapa.png','suite-palapa-recamara','hc'),
  ('Suite Palapa/Terraza serena con vista al mar.png','suite-palapa-terraza','c'),
  ('Suite Palapa/Dormitorio de lujo con techo de paja.png','suite-palapa-dosel','c'),
+ ('ROOFTOP/Terraza tropical con cojines oliva.png','suite-palapa-sala','c'),  # venía en ROOFTOP, es de la suite
  ('Suite Sol/Dormitorio elegante con luz cálida y terracota.png','suite-sol-recamara','hc'),
  ('Suite Sol/dc2dbf66-fd61-47f5-a35c-7180ccbe22ae.png','suite-sol-sala','c'),
  ('Jr. Suite Luna/Dormitorio boutique cálido y sereno.png','suite-luna-recamara','hc'),

@@ -782,3 +782,12 @@ picture{display:contents}
 }
 @media (prefers-reduced-motion:reduce){.diapo img,.avance i{animation:none;transition:none}}
 
+/* suite con cuatro fotos: la principal grande, dos arriba y una panorámica abajo */
+@media (min-width:1001px){
+  .suite-fotos.n4{grid-template-columns:2fr 1fr 1fr}
+  .suite-fotos.n4 a:nth-child(4){grid-column:2/4;aspect-ratio:3/1}
+}
+@media (max-width:1000px){
+  .suite-fotos.n4 a:nth-child(4){grid-column:1/-1}
+}
+

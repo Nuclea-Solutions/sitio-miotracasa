@@ -383,7 +383,7 @@ def pagina_suite(lang, s):
       + f'''
 <main id="contenido">
 
-  <div class="suite-fotos" id="galeria">
+  <div class="suite-fotos n{len(s['fotos'])}" id="galeria">
 {fotos_suite}
   </div>
 

@@ -15,7 +15,7 @@ RAIZ_WEB = '/sitio-miotracasa/'
 
 # ---------------------------------------------------------------- datos
 
-# fotos: la principal, la que aparece al pasar el cursor y la tercera de su página
+# fotos: la principal, la que aparece al pasar el cursor y las demás de su página (tres o cuatro)
 SUITES = [
  dict(slug='sayulita', tipo='master', nombre='Master Suite Sayulita', precio=420,
       m2=90, huespedes=2,
@@ -66,7 +66,7 @@ SUITES = [
 
  dict(slug='palapa', tipo='suite', nombre='Suite Palapa', precio=360,
       m2=60, huespedes=2,
-      fotos=('suite-palapa-recamara', 'suite-palapa-terraza', 'suite-palapa-dosel'),
+      fotos=('suite-palapa-recamara', 'suite-palapa-terraza', 'suite-palapa-dosel', 'suite-palapa-sala'),
       rasgo=('Vista al mar bajo techo de palma','Ocean view under a palapa roof'),
       cama=('Techo de palma','Palapa roof'),
       orienta=('Abierta al aire','Open to the air'),
@@ -142,6 +142,7 @@ FOTOS = {
  'suite-palapa-recamara':   ('Suite Palapa bajo su techo de palma','Suite Palapa under its palm roof'),
  'suite-palapa-terraza':    ('Terraza de la Suite Palapa con vista al mar','Suite Palapa terrace with an ocean view'),
  'suite-palapa-dosel':      ('Cama con mosquitero bajo la palapa','Canopy bed under the palapa'),
+ 'suite-palapa-sala':       ('Sala en la terraza de la Suite Palapa','Lounge on the Suite Palapa terrace'),
  'suite-sol-recamara':      ('Recámara de la Suite Sol','Suite Sol bedroom'),
  'suite-sol-sala':          ('Salita de la Suite Sol','Suite Sol sitting room'),
  'suite-luna-recamara':     ('Recámara de la Jr. Suite Luna','Jr. Suite Luna bedroom'),
