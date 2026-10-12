@@ -133,7 +133,7 @@
       var abrirVisor = function () {
         var im = fig.querySelector('img');
         focoPrevio = document.activeElement;
-        visorImg.src = im.currentSrc || im.src;
+        visorImg.src = im.dataset.grande || im.currentSrc || im.src;
         visorImg.alt = im.alt;
         visor.classList.add('abierto');
         visor.removeAttribute('aria-hidden');
@@ -230,4 +230,14 @@
   salida.addEventListener('change', pintar);
   suite.addEventListener('change', pintar);
   pintar();
+})();
+
+/* ---------- el mapa no captura el scroll hasta que se activa ---------- */
+(function () {
+  'use strict';
+  var caja = document.getElementById('mapa-caja');
+  if (!caja) { return; }
+  caja.querySelector('.mapa-activar').addEventListener('click', function () {
+    caja.classList.add('activo');
+  });
 })();

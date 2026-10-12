@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Construye todas las páginas. Uso:  python3 pages.py"""
 import os, json
-from build import (RAIZ, DOMINIO, IMG, SUITES, INCLUYE, T, RUTAS,
+from build import (RAIZ, DOMINIO, SUITES, INCLUYE, T, RUTAS, foto, foto_url,
                    base, url, alterno, cabeza, barra, pie, escribir)
 
 L = ('es', 'en')
@@ -31,18 +31,6 @@ EXPERIENCIAS = [
    'Papel picado, market stalls and the best paletas in town. Two minutes from the door.')),
 ]
 
-OFERTAS = [
- ('03_sol_01alt', ('Reserva anticipada','Book early'), ('Treinta días antes','Thirty days ahead'),
-  ('Reserva con un mes de anticipación y llévate un quince por ciento sobre la tarifa de temporada, con desayuno para dos.',
-   'Book a month ahead and take fifteen per cent off the season rate, breakfast for two included.')),
- ('07_palapa_01', ('Estancia larga','Longer stays'), ('Cuatro noches, pagas tres','Four nights, pay three'),
-  ('De mayo a octubre, la cuarta noche corre por cuenta de la casa. Aplica en todas las suites menos las master.',
-   'From May to October the fourth night is on the house. Valid in every suite except the master suites.')),
- ('04_agua_01', ('Luna de miel','Honeymoon'), ('Suite Agua con jacuzzi','Suite Agua with jacuzzi'),
-  ('Terraza privada, entrada independiente y vista parcial al mar. Incluye botella de espumoso y desayuno servido en la terraza.',
-   'Private terrace, its own entrance and a partial ocean view. Includes a bottle of sparkling wine and breakfast on the terrace.')),
-]
-
 TEXTOS = {
  'index': dict(
   titulo=('Mi Otra Casa — Hotel boutique en Sayulita, Nayarit',
@@ -55,12 +43,12 @@ TEXTOS = {
   suites_t=('Siete formas de quedarse','Seven ways to stay'),
   suites_p=('Cada suite es distinta a la anterior, y ahí está el encanto de quedarse en una casa y no en un hotel. Todas llevan el nombre de lo que las define — el sol de la mañana, el agua del jacuzzi, la palma del techo. De 240 a 420 dólares por noche, siempre con desayuno.',
             'Every suite is different from the last, and that is the charm of staying in a house rather than a hotel. Each is named after what defines it — the morning sun, the jacuzzi water, the palm roof. From 240 to 420 dollars a night, always with breakfast.'),
-  ofertas_t=('Quédate más','Stay longer'),
-  ofertas_p=('Tarifas directas, sin intermediarios y con desayuno incluido siempre.',
-             'Direct rates, no middlemen, breakfast always included.'),
+  vistazo_t=('La casa, de un vistazo','The house at a glance'),
+  vistazo_p=('Todo lo de abajo va incluido en cualquier suite, sin costo adicional y sin tener que pedirlo.',
+             'Everything below comes with any suite, at no extra cost and without having to ask.'),
   say_t=('Todo pasa caminando','Everything happens on foot'),
-  say_p=('Estamos a media cuadra de la plaza y a tres del mar. No hace falta coche, ni taxi, ni salir a buscar nada.',
-         'We are half a block from the plaza and three from the sea. No car, no taxi, nothing to go looking for.'),
+  say_p=('Estamos a media cuadra de la plaza y a tres del mar. No hace falta coche, ni taxi, ni salir a buscar nada: el pueblo entero está a pie, con todo lo que eso trae.',
+         'We are half a block from the plaza and three from the sea. No car, no taxi, nothing to go looking for: the whole town is walkable, with everything that brings.'),
   des_t=('Servido donde te acomodes','Served wherever you settle in'),
   des_p=('De ocho a once, en la terraza, en el jardín o en tu suite. Va incluido en todas las tarifas, siempre, sin letra chica.',
          'From eight to eleven, on the terrace, in the garden or in your suite. Included in every rate, always, no small print.'),
@@ -113,13 +101,10 @@ def pagina_index(lang):
     }
     extra = '<script type="application/ld+json">' + json.dumps(jsonld, ensure_ascii=False) + '</script>\n'
 
-    ofertas = '\n'.join(f'''      <article class="oferta">
-        <div class="foto"><img src="{IMG}/room/{f}.jpg" alt="{rot[k]}" loading="lazy" decoding="async"></div>
-        <p class="rotulo">{rot[k]}</p>
-        <h3>{tit[k]}</h3>
-        <p>{txt[k]}</p>
-        <a class="liga" href="{url(lang,'reservar',prof)}">{'Ver la oferta' if lang=='es' else 'See the offer'}</a>
-      </article>''' for f, rot, tit, txt in OFERTAS)
+    vistazo = '\n'.join(f'''      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true">{ICONOS[ic]}</svg>
+        <div><h3>{tit[k]}</h3><p>{txt[k]}</p></div>
+      </article>''' for ic, tit, txt in sorted((x for x in SERVICIOS if x[0] in VISTAZO), key=lambda x: VISTAZO.index(x[0])))
 
     exps = '\n'.join(f'''      <article class="tarjeta-exp">
         <div class="foto"><img src="{a}{img}.jpg" width="620" height="827" alt="{tit[k]}" loading="lazy" decoding="async"></div>
@@ -133,7 +118,7 @@ def pagina_index(lang):
       + portada_video(lang, t)
       + f'''
   <section class="bloque rev" id="suites" aria-labelledby="t-suites">
-    <div class="foto"><img src="{IMG}/room/06_sayulita_01alt.jpg" alt="Master Suite Sayulita" loading="lazy" decoding="async"></div>
+    <div class="foto">{foto(a, 'suite-sayulita-recamara', lang, 'bloque')}</div>
     <div class="texto">
       <p class="rotulo">{t['nav_suites']}</p>
       <h2 class="display" id="t-suites">{x['suites_t'][k]}</h2>
@@ -142,15 +127,16 @@ def pagina_index(lang):
     </div>
   </section>
 
-  <section class="ofertas rev" id="ofertas" aria-labelledby="t-ofertas">
+  <section class="ofertas rev" id="la-casa" aria-labelledby="t-casa">
     <div class="centro">
-      <p class="rotulo">{t['nav_ofertas']}</p>
-      <h2 class="display" id="t-ofertas">{x['ofertas_t'][k]}</h2>
-      <p>{x['ofertas_p'][k]}</p>
+      <p class="rotulo">{t['nav_servicios']}</p>
+      <h2 class="display" id="t-casa">{x['vistazo_t'][k]}</h2>
+      <p>{x['vistazo_p'][k]}</p>
     </div>
-    <div class="lista">
-{ofertas}
+    <div class="vistazo">
+{vistazo}
     </div>
+    <p class="centro" style="margin-top:var(--seccion-corta)"><a class="liga" href="{url(lang,'casa',prof)}#servicios">{('Ver todos los servicios','See all services')[k]}</a></p>
   </section>
 
   <section class="rev seccion-sayulita" id="experiencias" aria-labelledby="t-say">
@@ -165,7 +151,7 @@ def pagina_index(lang):
   </section>
 
   <section class="bloque rev" aria-labelledby="t-des">
-    <div class="foto"><img src="{IMG}/room-single/03_sol_04.jpg" alt="{'Sala de una suite' if lang=='es' else 'Sitting room in a suite'}" loading="lazy" decoding="async"></div>
+    <div class="foto">{foto(a, 'casa-comedor-palapa', lang, 'bloque')}</div>
     <div class="texto">
       <p class="rotulo">{'Desayuno' if lang=='es' else 'Breakfast'}</p>
       <h2 class="display" id="t-des">{x['des_t'][k]}</h2>
@@ -177,7 +163,7 @@ def pagina_index(lang):
   {resenas(lang, prof)}
 
   <section class="bloque rev" id="casa-completa" aria-labelledby="t-comp">
-    <div class="foto"><img src="{IMG}/room/04_agua_01alt.jpg" alt="{'Terraza compartida' if lang=='es' else 'Shared terrace'}" loading="lazy" decoding="async"></div>
+    <div class="foto">{foto(a, 'casa-alberca-atardecer', lang, 'bloque')}</div>
     <div class="texto">
       <p class="rotulo">{t['nav_completa']}</p>
       <h2 class="display" id="t-comp">{x['comp_t'][k]}</h2>
@@ -197,32 +183,46 @@ def pagina_index(lang):
 
 # ---------------------------------------------------------------- reseñas
 
+RESENAS = [
+ ('“This place has a great friendly staff. Clean. Beautiful shared areas and rooftop.”', 'TripAdvisor',
+  ('febrero 2023','February 2023'),
+  'https://www.tripadvisor.com/Hotel_Review-g445056-d17532206-Reviews-Mi_Otra_Casa-Sayulita_Pacific_Coast.html'),
+ ('“The room was beautiful as well as the common areas.”', 'Hotels.com',
+  ('mayo 2026','May 2026'),
+  'https://www.hotels.com/ho738695264/mi-otra-casa-adults-only-sayulita-mexico/'),
+ ('“We just stayed at Mi Otra Casa and it was fabulous.”', 'Trip.com', None,
+  'https://www.trip.com/hotels/sayulita-hotel-detail-21860524/mi-otra-casa/'),
+]
+
+PUNTAJES = [
+ ('9.6', 'Expedia', 'https://www.expedia.mx/Puerto-Vallarta-Hoteles-Mi-Otra-Casa-Adults-Only.h23052977.Informacion-Hotel'),
+ ('9.6', 'Hotels.com', 'https://www.hotels.com/ho738695264/mi-otra-casa-adults-only-sayulita-mexico/'),
+ ('10', 'Booking.com', 'https://www.booking.com/hotel/mx/mi-otra-casa.html'),
+]
+
 def resenas(lang, prof):
     k = i(lang)
     tit = ('Lo que dicen quienes se quedaron','What past guests say')[k]
-    sub = ('Calificaciones verificadas en las plataformas donde también se puede reservar la casa.',
-           'Verified ratings on the platforms where the house can also be booked.')[k]
-    pend = ('Pendiente: sustituir los tres textos por reseñas reales, con permiso del huésped.',
-            'Pending: replace the three texts with real reviews, with the guest’s permission.')[k]
-    puntajes = [('9.6','Expedia'), ('9.4','Hotels.com'), ('4.8 / 5','107 ' + ('reseñas','reviews')[k])]
-    pts = '\n'.join(f'        <p class="puntaje"><b>{n}</b><span>{f}</span></p>' for n, f in puntajes)
-    citas = [(('Texto de reseña pendiente.','Review text pending.'), ('Nombre del huésped','Guest name'), ('País · Mes 2026','Country · Month 2026'))] * 3
+    sub = ('Reseñas publicadas por huéspedes verificados en las plataformas. Las dejamos sin nombre; quien quiera leerlas completas puede ir a la fuente.',
+           'Reviews published by verified guests on the platforms. We leave them unsigned; anyone who wants to read them in full can go to the source.')[k]
+    verif = ('Huésped verificado','Verified guest')[k]
+    ver = ('Ver la reseña','See the review')[k]
+    pts = '\n'.join(f'        <a class="puntaje" href="{u}" rel="noopener"><b>{n}</b><span>{f}</span></a>' for n, f, u in PUNTAJES)
     tarjetas = '\n'.join(f"""      <article class="resena">
-        <blockquote>{c[0][k]}</blockquote>
-        <footer><b>{c[1][k]}</b>{c[2][k]}</footer>
-      </article>""" for c in citas)
+        <blockquote>{txt}</blockquote>
+        <footer><b>{fuente}</b>{verif}{' · ' + fecha[k] if fecha else ''}<br><a class="liga" href="{u}" rel="noopener">{ver}</a></footer>
+      </article>""" for txt, fuente, fecha, u in RESENAS)
     return f"""<section class="resenas rev" aria-labelledby="t-res">
     <header>
       <p class="rotulo">{('Reseñas','Reviews')[k]}</p>
       <h2 class="display" id="t-res">{tit}</h2>
       <p>{sub}</p>
-      <div class="puntajes">
-{pts}
-      </div>
-      <p class="ayuda" style="margin-top:1.5rem">{pend}</p>
     </header>
     <div class="lista">
 {tarjetas}
+    </div>
+    <div class="puntajes">
+{pts}
     </div>
   </section>"""
 
@@ -244,8 +244,8 @@ def pagina_suites(lang):
     for s in SUITES:
         tarjetas.append(f'''    <article class="suite" data-tipo="{s['tipo']}">
       <a class="foto" href="{url(lang,'suite',prof,s['slug'])}" aria-label="{t['ver']}: {s['nombre']}">
-        <img src="{IMG}/room/{s['foto']}_01.jpg" alt="{s['nombre']}" loading="lazy" decoding="async">
-        <img class="alt" src="{IMG}/room/{s['foto']}_01alt.jpg" alt="" aria-hidden="true" loading="lazy">
+        {foto(a, s['fotos'][0], lang, 'tarjeta', alt=s['nombre'])}
+        {foto(a, s['fotos'][1], lang, 'tarjeta', clase='alt', alt='')}
       </a>
       <h2>{s['nombre']}</h2>
       <p>{s['corta'][k]}</p>
@@ -269,7 +269,7 @@ def pagina_suites(lang):
 <main id="contenido">
 
   <section class="portada portada--interior">
-    <img class="fondo" src="{IMG}/room/06_sayulita_01alt.jpg" alt="" aria-hidden="true">
+    {foto(a, 'casa-terraza-mar', lang, 'portada', clase='fondo', alt='', perezosa=False, extra=' fetchpriority="high"')}
     <div class="txt">
       <p class="rotulo">{('Nuestras suites','Our suites')[k]}</p>
       <h1 class="display">{('Siete formas de quedarse','Seven ways to stay')[k]}</h1>
@@ -306,17 +306,20 @@ def pagina_suite(lang, s):
     desc = s['corta'][k][:155]
     otras = [o for o in SUITES if o['slug'] != s['slug']][:3]
     otras_html = '\n'.join(f'''      <a href="{url(lang,'suite',prof,o['slug'])}">
-        <div class="foto"><img src="{IMG}/room/{o['foto']}_01.jpg" alt="{o['nombre']}" loading="lazy" decoding="async"></div>
+        <div class="foto">{foto(a, o['fotos'][0], lang, 'otras', alt=o['nombre'])}</div>
         <h3>{o['nombre']}</h3>
         <p>{o['rasgo'][k]} · {t['desde'].lower()} ${o['precio']} USD</p>
       </a>''' for o in otras)
+    fotos_suite = '\n'.join(
+        f'    <a href="{foto_url(a, n)}">{foto(a, n, lang, "suite1" if j == 0 else "suite2", perezosa=j > 0, extra=' fetchpriority="high"' if j == 0 else '')}</a>'
+        for j, n in enumerate(s['fotos']))
     incluye = '\n'.join(f'        <li>{x}</li>' for x in (list(s['extras'][k]) + list(INCLUYE[k])))
     parrafos = '\n'.join(f'      <p>{p}</p>' for p in s['larga'][k])
 
     jsonld = {"@context":"https://schema.org","@type":"HotelRoom","name":s['nombre'],
       "description": s['corta'][k],
       "url": f"{DOMINIO}/{'en/' if lang=='en' else ''}{RUTAS[lang]['suite'](s['slug'])}",
-      "image": f"{IMG}/room/{s['foto']}_01.jpg",
+      "image": DOMINIO + '/' + foto_url('assets/', s['fotos'][0]),
       "occupancy":{"@type":"QuantitativeValue","maxValue":s['huespedes']},
       "floorSize":{"@type":"QuantitativeValue","value":s['m2'],"unitCode":"MTK"},
       "containedInPlace":{"@type":"Hotel","name":"Mi Otra Casa","url":DOMINIO+"/"}}
@@ -328,16 +331,14 @@ def pagina_suite(lang, s):
 <main id="contenido">
 
   <div class="suite-fotos" id="galeria">
-    <a href="{IMG}/room/{s['foto']}_01.jpg"><img src="{IMG}/room/{s['foto']}_01.jpg" alt="{s['nombre']}" decoding="async"></a>
-    <a href="{IMG}/room/{s['foto']}_01alt.jpg"><img src="{IMG}/room/{s['foto']}_01alt.jpg" alt="{s['nombre']}" loading="lazy" decoding="async"></a>
-    <a href="{IMG}/room/{s['foto']}_01.jpg"><img src="{IMG}/room/{s['foto']}_01.jpg" alt="{s['nombre']}" loading="lazy" decoding="async"></a>
+{fotos_suite}
   </div>
 
   <div class="suite-cuerpo">
     <div>
       <p class="rotulo">{s['rasgo'][k]}</p>
       <h1 class="display">{s['nombre']}</h1>
-      <p class="ficha"><span>{s['m2']} m²</span><span>{s['huespedes']} {'adultos' if lang=='es' else 'adults'}</span><span>{s['cama'][k]}</span><span>{('Desayuno incluido','Breakfast included')[k]}</span></p>
+      <p class="ficha"><span>{s['m2']} m²</span><span>{s['huespedes']} {'adultos' if lang=='es' else 'adults'}</span><span>{s['cama'][k]}</span><span>{s['orienta'][k]}</span></p>
       <div class="suite-texto">
 {parrafos}
       </div>
@@ -404,6 +405,9 @@ ICONOS = {
  'escaleras':'<path d="M3 20h4v-4h4v-4h4V8h4V4"/><path d="M3 20v-1"/>',
 }
 
+# los seis que se muestran en «La casa, de un vistazo» de la portada
+VISTAZO = ('desayuno','alberca','bar','spa','asador','wifi')
+
 SERVICIOS = [
  ('desayuno', ('Desayuno incluido','Breakfast included'),
   ('Todas las reservas incluyen desayuno diario para dos personas, servido donde te acomodes.',
@@ -464,18 +468,9 @@ SERVICIOS = [
    'The house is laid out over stairs. Luna is the only suite reached without them.')),
 ]
 
-GALERIA = [
- ('room-single/03_sol_05', ('Sala con vista al jardín','Sitting room onto the garden')),
- ('room/05_flores_01', ('Terraza con vista al mar','Terrace with an ocean view')),
- ('room/04_agua_01alt', ('Terraza junto a la alberca','Terrace by the pool')),
- ('room/07_palapa_01alt', ('Suite bajo techo de palapa','Suite under the palapa roof')),
- ('room-single/03_sol_06', ('Baño de estilo mexicano','Mexican style bathroom')),
- ('room/02_arena_01alt', ('Rincón de una de las suites','A corner of one of the suites')),
- ('room/06_sayulita_01alt', ('Suite con vista al pueblo','Suite looking over the town')),
- ('room/01_luna_01', ('Jr. Suite Luna','Jr. Suite Luna')),
- ('room-single/03_sol_04', ('Sala de estar de la Suite Sol','Sitting room of Suite Sol')),
- ('room/03_sol_01alt', ('Patio de plantas','Planted courtyard')),
-]
+# espacios comunes; la 1.ª y la 8.ª ocupan doble en la retícula, así que van horizontales
+GALERIA = ['casa-fachada', 'casa-alberca', 'casa-reposeras', 'casa-alberca-sala', 'casa-bar-palapa',
+           'casa-terraza-atardecer', 'casa-corredor', 'casa-palapa-rooftop', 'casa-masaje', 'casa-hora-azul']
 
 def pagina_casa(lang):
     t = T[lang]; k = i(lang); prof = 0
@@ -485,11 +480,12 @@ def pagina_casa(lang):
             'Inside Mi Otra Casa: garden, pool, terraces and seven suites half a block from the plaza in Sayulita.')[k]
     intro = ([ 'Mi Otra Casa está en Marlin 18, a media cuadra de la plaza y a tres del mar. Son tres niveles alrededor de un jardín, con alberca, terrazas que se comparten y siete suites que no se parecen entre sí.',
                'No hay recepción con mostrador ni pasillos largos. La puerta principal abre con código, el desayuno se sirve donde te acomodes y si necesitas algo del pueblo — una mesa, una tabla, un taxi al aeropuerto — se resuelve preguntando.',
-               'Es una casa para adultos que vienen a descansar, así que aquí se cuida el silencio tanto como la hospitalidad.'],
+               'Es una casa para adultos que vienen a descansar. Afuera, Sayulita es un pueblo de fiesta y en temporada alta se escucha hasta la madrugada; adentro, las suites interiores dan al jardín y en todas hay tapones y ruido blanco. Lo decimos antes de que reserves, no después.'],
              [ 'Mi Otra Casa sits at Marlin 18, half a block from the plaza and three from the sea. Three floors around a garden, with a pool, shared terraces and seven suites that look nothing alike.',
                'There is no front desk and there are no long corridors. The main door opens with a code, breakfast is served wherever you settle in, and anything you need from town — a table, a surfboard, a ride to the airport — gets sorted by asking.',
-               'It is a house for adults who came to rest, so quiet is looked after as carefully as hospitality.'])[k]
-    galeria = '\n'.join(f'    <figure><img src="{IMG}/{ruta}.jpg" alt="{alt[k]}" loading="lazy" decoding="async"></figure>' for ruta, alt in GALERIA)
+               'It is a house for adults who came to rest. Outside, Sayulita is a party town and in high season it is heard into the early hours; inside, the interior suites face the garden and every room has earplugs and a white-noise machine. We say so before you book, not after.'])[k]
+    galeria = '\n'.join(f'    <figure>{foto(a, n, lang, "gal2" if j in (0, 7) else "gal", extra=f" data-grande=\"{foto_url(a, n)}\"")}</figure>'
+                         for j, n in enumerate(GALERIA))
     servicios = '\n'.join(f"""      <article class="item">
         <svg viewBox="0 0 24 24" aria-hidden="true">{ICONOS[ic]}</svg>
         <div><h3>{tit[k]}</h3><p>{txt[k]}</p></div>
@@ -540,7 +536,7 @@ def pagina_casa(lang):
   </section>
 
   <section class="ubica" aria-labelledby="t-ubica">
-    <div class="foto"><img src="{IMG}/room/06_sayulita_01.jpg" alt="{('Vista al pueblo','View over the town')[k]}" loading="lazy" decoding="async"></div>
+    <div class="foto">{foto(a, 'casa-balcon-pueblo', lang, 'ubica')}</div>
     <div>
       <p class="rotulo">{('Cómo llegar','Getting here')[k]}</p>
       <h2 class="display" id="t-ubica">Marlin 18, Sayulita</h2>
@@ -671,7 +667,13 @@ def pagina_contacto(lang):
     <p style="color:var(--texto)">{('A media cuadra de la plaza y a tres del mar, en una calle tranquila del centro.','Half a block from the plaza and three from the sea, on a quiet street in the centre.')[k]}</p>
   </section>
 
-  <div class="limite"><iframe class="mapa" src="{mapa}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{('Mapa de Mi Otra Casa','Map of Mi Otra Casa')[k]}"></iframe></div>
+  <div class="limite">
+    <div class="mapa-caja" id="mapa-caja">
+      <iframe class="mapa" src="{mapa}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{('Mapa de Mi Otra Casa','Map of Mi Otra Casa')[k]}"></iframe>
+      <button class="mapa-activar" type="button">{('Activar el mapa','Activate map')[k]}</button>
+    </div>
+    <p class="mapa-pie"><a class="liga" href="https://www.google.com/maps/search/?api=1&query=20.86830%2C-105.44066" rel="noopener">{('Abrir en Google Maps','Open in Google Maps')[k]}</a></p>
+  </div>
 
   <div class="form-envoltura">
     <div>
@@ -711,6 +713,7 @@ def pagina_politicas(lang):
               ('Sin humo','La casa entera es libre de humo. No se fuma dentro de las suites ni en las áreas comunes.'),
               ('Accesibilidad','La casa tiene tres niveles y no cuenta con elevador. Luna es la única suite sin escaleras de por medio.'),
               ('Silencio','A partir de las 22:00 se cuida el ruido en las áreas comunes. Es una casa, no un salón de fiestas.'),
+              ('El pueblo de noche','Sayulita tiene vida nocturna y en temporada alta la música se escucha hasta la madrugada. Las suites interiores dan al jardín y son las más resguardadas; en todas dejamos tapones y ruido blanco. Si viajas con el sueño ligero, dínoslo al reservar y te acomodamos en la más tranquila disponible.'),
               ('Casa completa','Las reservas de la casa entera se cotizan aparte y tienen condiciones propias de anticipo y cancelación.')],
              [('Check-in and check-out','Check-in from 4 to 7 pm. Check-out before 11 am. Early and late check-in are subject to availability; let us know ahead and we will arrange it.'),
               ('Adults only','The house welcomes guests aged 21 and over only. It is not a hotel for children or teenagers, and we would rather say so before you book.'),
@@ -725,6 +728,7 @@ def pagina_politicas(lang):
               ('Smoking','The whole property is smoke-free, inside the suites and in the shared areas.'),
               ('Accessibility','The house has three floors and no lift. Luna is the only suite reached without stairs.'),
               ('Quiet hours','From 10 pm we keep noise down in the shared areas. This is a house, not a party venue.'),
+              ('The town at night','Sayulita has nightlife, and in high season the music carries into the early hours. The interior suites face the garden and are the most sheltered; every room has earplugs and a white-noise machine. If you are a light sleeper, tell us when booking and we will put you in the quietest room available.'),
               ('Whole house','Whole-house bookings are quoted separately and have their own deposit and cancellation terms.')])[k]
     html_filas = '\n'.join(f'''    <div><dt>{a}</dt><dd>{b}</dd></div>''' for a, b in filas)
     return (cabeza(lang, ('Políticas — Mi Otra Casa','Policies — Mi Otra Casa')[k],

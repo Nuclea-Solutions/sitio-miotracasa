@@ -5,32 +5,38 @@ Generador del sitio de Mi Otra Casa.
 Escribe el sitio en español en la raíz y en inglés bajo /en/.
     python3 build.py
 """
-import os, shutil, html
+import os, re, shutil, html
 
-RAIZ = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'build')
+RAIZ = os.path.dirname(os.path.abspath(__file__))   # el sitio vive junto a los generadores
 DOMINIO = 'https://miotracasa.mx'
-IMG = 'https://miotracasa.mx/images'          # fotos que todavía viven en el sitio actual
 
 # ---------------------------------------------------------------- datos
 
+# fotos: la principal, la que aparece al pasar el cursor y la tercera de su página
 SUITES = [
  dict(slug='sayulita', tipo='master', nombre='Master Suite Sayulita', precio=420,
-      m2=90, huespedes=2, foto='06_sayulita',
+      m2=90, huespedes=2,
+      fotos=('suite-sayulita-recamara', 'suite-sayulita-sala', 'suite-sayulita-cocina'),
       rasgo=('Vista al pueblo y al mar','Town and ocean view'),
       cama=('Cama king','King bed'),
-      corta=('En el segundo piso, con la mejor luz de la casa: por la mañana entra limpia desde el oriente y por la noche se ven las luces del pueblo.',
-             'On the second floor, with the best light in the house: clean morning sun from the east and the town lights at night.'),
+      orienta=('Segundo piso, da al pueblo','Second floor, faces the town'),
+      corta=('En el segundo piso, con la mejor luz de la casa y vista al pueblo y al mar. Da al centro, así que de noche se escucha Sayulita.',
+             'On the second floor, with the best light in the house and views of the town and the sea. It faces the centre, so you hear Sayulita at night.'),
       larga=(['Es la suite más alta de la casa y la que mejor resume por qué MOC está donde está: desde la terraza se ve el pueblo por un lado y el mar por el otro.',
-              'Adentro, noventa metros cuadrados con cama king, baño amplio y una sala donde cabe el equipaje de un viaje largo sin que estorbe.'],
+              'Adentro, noventa metros cuadrados con cama king, baño amplio y una sala donde cabe el equipaje de un viaje largo sin que estorbe.',
+              'Conviene saberlo antes de reservar: es la suite que más mira al centro del pueblo, y en temporada alta la música se escucha hasta la madrugada. Hay tapones y ruido blanco en la habitación.'],
              ['The highest suite in the house, and the one that best explains why MOC sits where it does: from the terrace you see the town on one side and the ocean on the other.',
-              'Inside, ninety square metres with a king bed, a generous bathroom and a sitting area where the luggage of a long trip fits without getting in the way.']),
+              'Inside, ninety square metres with a king bed, a generous bathroom and a sitting area where the luggage of a long trip fits without getting in the way.',
+              'Worth knowing before you book: it is the suite that looks most directly onto the centre of town, and in high season the music carries into the early hours. Earplugs and a white-noise machine are in the room.']),
       extras=(['Terraza con palapa','Vista al mar','Sala independiente'],
               ['Palapa-covered terrace','Ocean view','Separate sitting area'])),
 
  dict(slug='flores', tipo='master', nombre='Master Suite Flores', precio=420,
-      m2=80, huespedes=4, foto='05_flores',
+      m2=80, huespedes=4,
+      fotos=('suite-flores-recamara', 'suite-flores-desayuno', 'suite-flores-interior'),
       rasgo=('Terraza con vista al océano','Ocean view terrace'),
       cama=('Terraza privada','Private terrace'),
+      orienta=('Terraza al mar y a la alberca','Terrace facing the ocean and pool'),
       corta=('El corazón de la casa. Más de 70 m² de interior más una terraza con mesa y camastros que da al mar, la alberca y el jardín.',
              'The heart of the house. Over 70 m² inside plus a terrace with a table and loungers facing the ocean, the pool and the garden.'),
       larga=(['La terraza es lo que la vuelve distinta: mesa para desayunar, camastros para la tarde y una vista que abarca el mar, la alberca y el jardín de la casa.',
@@ -41,9 +47,11 @@ SUITES = [
               ['Terrace with loungers','Pool view','Sleeps four adults'])),
 
  dict(slug='agua', tipo='suite', nombre='Suite Agua', precio=360,
-      m2=60, huespedes=2, foto='04_agua',
+      m2=60, huespedes=2,
+      fotos=('suite-agua-recamara', 'suite-agua-terraza', 'suite-agua-jacuzzi'),
       rasgo=('Jacuzzi para dos','Jacuzzi for two'),
       cama=('Jacuzzi','Jacuzzi'),
+      orienta=('Planta baja, terraza propia','Ground floor, its own terrace'),
       corta=('Planta baja con entrada independiente por una terraza grande y vista parcial al mar. El jacuzzi la vuelve la favorita de las lunas de miel.',
              'Ground floor with its own entrance through a large terrace and a partial ocean view. The jacuzzi makes it the honeymoon favourite.'),
       larga=(['Se entra por su propia terraza, sin pasar por las áreas comunes, lo que la hace la más privada de la casa.',
@@ -54,24 +62,28 @@ SUITES = [
               ['Private entrance','Large terrace','Partial ocean view'])),
 
  dict(slug='palapa', tipo='suite', nombre='Suite Palapa', precio=360,
-      m2=60, huespedes=2, foto='07_palapa',
+      m2=60, huespedes=2,
+      fotos=('suite-palapa-recamara', 'suite-palapa-terraza', 'suite-palapa-dosel'),
       rasgo=('Vista al mar bajo techo de palma','Ocean view under a palapa roof'),
       cama=('Techo de palma','Palapa roof'),
+      orienta=('Techo de palma, abierta al aire','Palm roof, open to the air'),
       corta=('Duermes bajo la palma y con el aire del mar; no lleva aire acondicionado y ese es justo el punto. La más fresca entre noviembre y abril.',
              'You sleep under the palm roof with sea air; there is no air conditioning and that is precisely the point. The coolest room from November to April.'),
       larga=(['El techo de palapa y la ventilación cruzada mantienen la suite fresca sin aire acondicionado, que es como se ha dormido en esta costa desde siempre.',
-              'Conviene saberlo antes de reservar: de mayo a octubre el calor de Sayulita es húmedo, y esta suite es para quien prefiere el ventilador y el aire del mar.'],
+              'Conviene saberlo antes de reservar: de mayo a octubre el calor de Sayulita es húmedo, y esta suite es para quien prefiere el ventilador y el aire del mar. Y como el techo es abierto, también entra el sonido del pueblo: no es la suite para quien tiene el sueño ligero.'],
              ['The palapa roof and the cross ventilation keep the room cool without air conditioning, which is how people have slept on this coast for a long time.',
-              'Worth knowing before you book: from May to October Sayulita is humid, and this suite is for guests who prefer a fan and sea air.']),
+              'Worth knowing before you book: from May to October Sayulita is humid, and this suite is for guests who prefer a fan and sea air. And because the roof is open, the sound of the town comes in too: this is not the room for a light sleeper.']),
       extras=(['Vista al mar','Ventilación natural','Techo de palapa'],
               ['Ocean view','Natural ventilation','Palapa roof'])),
 
  dict(slug='sol', tipo='suite', nombre='Suite Sol', precio=360,
-      m2=80, huespedes=2, foto='03_sol',
+      m2=80, huespedes=2,
+      fotos=('suite-sol-recamara', 'suite-sol-sala', 'casa-patio-arcos'),
       rasgo=('Vista al jardín','Garden view'),
       cama=('Planta baja','Ground floor'),
-      corta=('Calma, privacidad y silencio en planta baja. Dos ventanales, uno al jardín y otro a un traspatio de plantas que abre a un cubo de luz natural.',
-             'Calm, privacy and quiet on the ground floor. Two large windows, one onto the garden and one onto a planted courtyard open to the sky.'),
+      orienta=('Interior, al jardín','Interior, onto the garden'),
+      corta=('Planta baja, interior y al jardín: es de las más resguardadas del ruido del pueblo. Dos ventanales, uno al jardín y otro a un traspatio de plantas.',
+             'Ground floor, interior and facing the garden: one of the most sheltered rooms from the noise of the town. Two large windows, one onto the garden and one onto a planted courtyard.'),
       larga=(['Se entra por una salita con dos sofás convertibles, útiles para la siesta de la tarde o para una noche extra.',
               'Tiene dos ventanales: uno da al jardín y el otro a un traspatio lleno de plantas, al que se puede salir desde la suite. El piso de cerámica vidriada y la artesanía son lo que la vuelven distinta.'],
              ['You enter through a small sitting room with two convertible sofas, useful for an afternoon nap or an extra night.',
@@ -80,11 +92,13 @@ SUITES = [
               ['Separate sitting room','Private courtyard','Ground floor'])),
 
  dict(slug='luna', tipo='jr', nombre='Jr. Suite Luna', precio=240,
-      m2=30, huespedes=2, foto='01_luna',
+      m2=30, huespedes=2,
+      fotos=('suite-luna-recamara', 'suite-luna-entrada', 'casa-patio-arcos'),
       rasgo=('Vista al jardín, sin escaleras','Garden view, step-free'),
       cama=('Cama queen','Queen bed'),
-      corta=('Pequeña y bien resuelta, con cama queen. Ideal para una pareja joven o para quien prefiere no subir escaleras.',
-             'Small and well resolved, with a queen bed. Ideal for a young couple or anyone who would rather skip the stairs.'),
+      orienta=('Interior, al jardín','Interior, onto the garden'),
+      corta=('Pequeña y bien resuelta, con cama queen. Interior y al jardín, sin escaleras de por medio: de las más tranquilas de la casa.',
+             'Small and well resolved, with a queen bed. Interior and facing the garden, with no stairs along the way: one of the quietest rooms in the house.'),
       larga=(['Treinta metros cuadrados aprovechados al máximo: cama queen, baño completo y vista al jardín.',
               'Está en planta baja y no tiene escaleras de por medio, así que es la más cómoda para quien llega con equipaje pesado o prefiere no subir.'],
              ['Thirty square metres used well: a queen bed, a full bathroom and a garden view.',
@@ -93,11 +107,13 @@ SUITES = [
               ['Step-free','Garden view','Queen bed'])),
 
  dict(slug='arena', tipo='jr', nombre='Jr. Suite Arena', precio=240,
-      m2=30, huespedes=2, foto='02_arena',
+      m2=30, huespedes=2,
+      fotos=('suite-arena-recamara', 'suite-arena-bano', 'casa-patio-arcos'),
       rasgo=('Dos camas individuales','Two single beds'),
       cama=('Dos camas','Two beds'),
-      corta=('Pensada para compartir con una amiga o con la familia: dos camas individuales, escritorio y una decoración ecléctica.',
-             'Made for sharing with a friend or a relative: two single beds, a desk and an eclectic mix of pieces.'),
+      orienta=('Interior, al jardín','Interior, onto the garden'),
+      corta=('Pensada para compartir con una amiga o con la familia: dos camas individuales, escritorio y una decoración ecléctica. Interior, al jardín.',
+             'Made for sharing with a friend or a relative: two single beds, a desk and an eclectic mix of pieces. Interior, facing the garden.'),
       larga=(['Es la única suite con dos camas individuales, así que resuelve el viaje de dos amigas o de madre e hija adulta.',
               'Tiene escritorio, lo que la hace la mejor opción para quien viene a trabajar unos días desde Sayulita.'],
              ['The only suite with two single beds, which solves a trip for two friends or a mother and her grown daughter.',
@@ -105,6 +121,108 @@ SUITES = [
       extras=(['Dos camas individuales','Escritorio','Vista al jardín'],
               ['Two single beds','Desk','Garden view'])),
 ]
+
+# ---------------------------------------------------------------- fotos
+# Viven en assets/fotos/<nombre>-<ancho>.jpg|webp. Los anchos se leen del disco,
+# así que basta con procesar una foto nueva y darla de alta aquí con su texto alternativo.
+
+FOTOS = {
+ 'suite-sayulita-recamara': ('Recámara de la Master Suite Sayulita con vista al mar','Master Suite Sayulita bedroom with an ocean view'),
+ 'suite-sayulita-sala':     ('Sala de la Master Suite Sayulita con vista al pueblo','Master Suite Sayulita sitting area looking over the town'),
+ 'suite-sayulita-cocina':   ('Cocineta de la Master Suite Sayulita','Kitchenette in Master Suite Sayulita'),
+ 'suite-flores-recamara':   ('Master Suite Flores, dos camas y vista al mar','Master Suite Flores, two beds and an ocean view'),
+ 'suite-flores-desayuno':   ('Desayuno servido en la Master Suite Flores','Breakfast served in Master Suite Flores'),
+ 'suite-flores-interior':   ('Interior de la Master Suite Flores con artesanía mexicana','Inside Master Suite Flores, with Mexican crafts'),
+ 'suite-agua-recamara':     ('Recámara de la Suite Agua','Suite Agua bedroom'),
+ 'suite-agua-terraza':      ('Terraza de la Suite Agua con vista parcial al mar','Suite Agua terrace with a partial ocean view'),
+ 'suite-agua-jacuzzi':      ('Jacuzzi en la terraza de la Suite Agua','Jacuzzi on the Suite Agua terrace'),
+ 'suite-palapa-recamara':   ('Suite Palapa bajo su techo de palma','Suite Palapa under its palm roof'),
+ 'suite-palapa-terraza':    ('Terraza de la Suite Palapa con vista al mar','Suite Palapa terrace with an ocean view'),
+ 'suite-palapa-dosel':      ('Cama con mosquitero bajo la palapa','Canopy bed under the palapa'),
+ 'suite-sol-recamara':      ('Recámara de la Suite Sol','Suite Sol bedroom'),
+ 'suite-sol-sala':          ('Salita de la Suite Sol','Suite Sol sitting room'),
+ 'suite-luna-recamara':     ('Recámara de la Jr. Suite Luna','Jr. Suite Luna bedroom'),
+ 'suite-luna-entrada':      ('Entrada de la Jr. Suite Luna','Entrance to Jr. Suite Luna'),
+ 'suite-arena-recamara':    ('Jr. Suite Arena, dos camas individuales','Jr. Suite Arena, two single beds'),
+ 'suite-arena-bano':        ('Baño de la Jr. Suite Arena','Jr. Suite Arena bathroom'),
+ 'casa-patio-arcos':        ('Jardín de la casa, bajo los arcos','The garden of the house, under the arches'),
+ 'casa-comedor-palapa':     ('Comedor bajo la palapa','Dining table under the palapa'),
+ 'casa-alberca-atardecer':  ('Sala junto a la alberca al atardecer','Lounge by the pool at dusk'),
+ 'casa-terraza-mar':        ('Terraza de la azotea con vista al mar','Rooftop terrace with an ocean view'),
+ 'casa-balcon-pueblo':      ('Vista al pueblo y al mar desde el balcón','View over the town and the sea from the balcony'),
+ 'casa-fachada':            ('La casa entre palmeras, con su palapa en lo alto','The house among palms, its palapa on top'),
+ 'casa-alberca':            ('Alberca entre plantas tropicales','Pool among tropical plants'),
+ 'casa-reposeras':          ('Camastros bajo una palapa junto a la alberca','Loungers under a palapa by the pool'),
+ 'casa-alberca-sala':       ('Sala al aire libre frente a la alberca','Open-air lounge facing the pool'),
+ 'casa-bar-palapa':         ('Barra bajo la palapa de la azotea','Bar under the rooftop palapa'),
+ 'casa-terraza-atardecer':  ('Atardecer sobre Sayulita desde la terraza','Sunset over Sayulita from the terrace'),
+ 'casa-corredor':           ('Corredor de piedra hacia el jardín','Stone walkway to the garden'),
+ 'casa-palapa-rooftop':     ('Sala bajo la palapa de la azotea','Lounge under the rooftop palapa'),
+ 'casa-masaje':             ('Masaje en la terraza','Massage on the terrace'),
+ 'casa-hora-azul':          ('La casa en la hora azul','The house at blue hour'),
+}
+
+# encuadre de las verticales cuando la retícula las recorta a 3:2 o cuadrado
+FOCO = {
+ 'suite-agua-jacuzzi': '50% 80%',
+ 'casa-reposeras':     '50% 75%',
+ 'casa-bar-palapa':    '50% 75%',
+}
+
+# sizes según la retícula de site.css (cortes en 640, 1000 y 1100 px)
+TAM = {
+ 'portada':  '100vw',
+ 'bloque':   '(max-width: 1000px) 100vw, 60vw',
+ 'tarjeta':  '(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 33vw',
+ 'otras':    '(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw',
+ 'suite1':   '(max-width: 1000px) 100vw, 62vw',
+ 'suite2':   '(max-width: 1000px) 100vw, 38vw',
+ 'gal':      '(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 25vw',
+ 'gal2':     '(max-width: 640px) 100vw, 50vw',
+ 'ubica':    '(max-width: 1000px) 100vw, 58vw',
+}
+
+DIR_FOTOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'fotos')
+_anchos = {}
+
+def anchos(nombre):
+    """Anchos disponibles de una foto, de menor a mayor, leídos de assets/fotos."""
+    if nombre not in _anchos:
+        _anchos[nombre] = sorted(int(m.group(1)) for f in os.listdir(DIR_FOTOS)
+                                 if (m := re.fullmatch(re.escape(nombre) + r'-(\d+)\.jpg', f)))
+        assert _anchos[nombre], f'falta la foto {nombre} en assets/fotos'
+    return _anchos[nombre]
+
+def alto(nombre, w):
+    """Alto de la versión de ancho w, leído de la cabecera JPEG."""
+    with open(os.path.join(DIR_FOTOS, f'{nombre}-{w}.jpg'), 'rb') as f:
+        d = f.read()
+    j = 2
+    while j < len(d):
+        marca, largo = d[j+1], int.from_bytes(d[j+2:j+4], 'big')
+        if marca in (0xC0, 0xC1, 0xC2):
+            return int.from_bytes(d[j+5:j+7], 'big')
+        j += 2 + largo
+    raise ValueError(nombre)
+
+def foto_url(a, nombre, w=None):
+    """Ruta a una versión JPEG; sin ancho, la más grande."""
+    return f'{a}fotos/{nombre}-{w or anchos(nombre)[-1]}.jpg'
+
+def foto(a, nombre, lang, tam, clase='', alt=None, perezosa=True, extra=''):
+    """<picture> con WebP y JPEG en todos los anchos que existan.
+    a: prefijo hasta assets/ · alt=None usa el texto del catálogo · alt='' la marca decorativa."""
+    ws = anchos(nombre)
+    w0 = ws[-1] if len(ws) == 1 else ws[-2]
+    texto = FOTOS[nombre]['en' == lang] if alt is None else alt
+    srcset = lambda ext: ', '.join(f'{a}fotos/{nombre}-{w}.{ext} {w}w' for w in ws)
+    attrs = f' class="{clase}"' if clase else ''
+    attrs += f' alt="{texto}"' + ('' if texto else ' aria-hidden="true"')
+    attrs += ' loading="lazy"' if perezosa else ''
+    attrs += f' style="object-position:{FOCO[nombre]}"' if nombre in FOCO else ''
+    return (f'<picture><source type="image/webp" srcset="{srcset("webp")}" sizes="{TAM[tam]}">'
+            f'<img src="{a}fotos/{nombre}-{w0}.jpg" srcset="{srcset("jpg")}" sizes="{TAM[tam]}" '
+            f'width="{ws[-1]}" height="{alto(nombre, ws[-1])}"{attrs} decoding="async"{extra}></picture>')
 
 INCLUYE = (
  ['Desayuno diario para dos','WiFi sin costo','Aire acondicionado','Frigobar','Agua embotellada sin costo',
@@ -119,7 +237,7 @@ T = {
    lang='es', otro='en', otro_nombre='English', pre='', raiz='index.html',
    menu='Menú', cerrar_menu='Cerrar menú', reservar='Reservar', saltar='Saltar al contenido',
    nav_suites='Suites', nav_casa='La casa', nav_sayulita='Sayulita',
-   nav_completa='Casa completa', nav_ofertas='Ofertas', nav_contacto='Contacto',
+   nav_completa='Casa completa', nav_servicios='Servicios', nav_contacto='Contacto',
    nav_politicas='Políticas', nav_privacidad='Aviso de privacidad',
    destacado_ch='Reservas', destacado_t='Consultar disponibilidad',
    pie_casa='La casa', pie_reservas='Reservas', pie_social='Síguenos',
@@ -133,7 +251,7 @@ T = {
    lang='en', otro='es', otro_nombre='Español', pre='../', raiz='../index.html',
    menu='Menu', cerrar_menu='Close menu', reservar='Book', saltar='Skip to content',
    nav_suites='Suites', nav_casa='The house', nav_sayulita='Sayulita',
-   nav_completa='Whole house', nav_ofertas='Offers', nav_contacto='Contact',
+   nav_completa='Whole house', nav_servicios='Services', nav_contacto='Contact',
    nav_politicas='Policies', nav_privacidad='Privacy notice',
    destacado_ch='Reservations', destacado_t='Check availability',
    pie_casa='The house', pie_reservas='Reservations', pie_social='Follow us',
@@ -240,7 +358,7 @@ def barra(lang, clave, prof=0, slug=None):
       <a href="{url(lang,'casa',prof)}"{act('casa')}>{t['nav_casa']}</a>
       <a href="{url(lang,'index',prof)}#experiencias">{t['nav_sayulita']}</a>
       <a href="{url(lang,'index',prof)}#casa-completa">{t['nav_completa']}</a>
-      <a href="{url(lang,'index',prof)}#ofertas">{t['nav_ofertas']}</a>
+      <a href="{url(lang,'casa',prof)}#servicios">{t['nav_servicios']}</a>
     </nav>
     <div class="secundario">
       <a href="{url(lang,'contacto',prof)}"{act('contacto')}>{t['nav_contacto']}</a>

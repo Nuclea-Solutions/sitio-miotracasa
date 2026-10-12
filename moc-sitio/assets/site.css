@@ -202,9 +202,9 @@ p{text-wrap:pretty}
   content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(28,28,26,.42) 0%,rgba(28,28,26,.12) 45%,rgba(28,28,26,.58) 100%);
 }
-.portada .txt{position:relative;z-index:2;max-width:22ch}
+.portada .txt{position:relative;z-index:2;max-width:min(92vw,1000px)}
 .portada .rotulo{color:rgba(253,253,253,.85)}
-.portada h1{line-height:1.05;margin-top:1.3rem}
+.portada h1{line-height:1.05;margin-top:1.3rem;max-width:17ch;margin-inline:auto;text-wrap:balance}
 
 .portada--video{height:calc(100svh - var(--barra));min-height:480px}
 .portada--video .fondo{opacity:0;animation:aparece 1.6s ease forwards}
@@ -435,7 +435,7 @@ p{text-wrap:pretty}
   .menu-btn span:not(.hamb){display:none}
 }
 
-@media (max-width:760px){
+@media (max-width:640px){
   :root{--barra:72px}
   .barra{padding:.75rem var(--gutter);gap:.5rem}
   .barra .logo img{width:118px}
@@ -444,7 +444,7 @@ p{text-wrap:pretty}
 
   .portada--video{height:calc(88svh - var(--barra))}
   .portada--interior{height:calc(52svh - var(--barra));min-height:300px}
-  .portada .txt{max-width:18ch}
+  .portada .txt{max-width:94vw}
   .control{width:38px;height:38px;top:1rem}
   .baja{display:none}
 
@@ -605,13 +605,92 @@ p{text-wrap:pretty}
   .suite-fotos a:first-child{grid-row:auto;aspect-ratio:3/2}
   .otras .lista{grid-template-columns:1fr}
 }
-@media (max-width:760px){
+@media (max-width:640px){
   .fila{grid-template-columns:1fr}
   .tabla-politicas > div{grid-template-columns:1fr;gap:.4rem}
 }
 
+/* ---------- mapa sin captura del scroll ---------- */
+.mapa-caja{position:relative}
+.mapa-caja .mapa{pointer-events:none}
+.mapa-caja.activo .mapa{pointer-events:auto}
+.mapa-activar{
+  position:absolute;inset:0;width:100%;
+  background:transparent;color:transparent;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;
+  transition:background .3s,color .3s;
+}
+.mapa-caja:hover .mapa-activar{background:rgba(28,28,26,.35);color:var(--marfil)}
+.mapa-caja.activo .mapa-activar{display:none}
+.mapa-pie{margin-top:1.25rem;text-align:right}
 
-/* correccion: el titular de portada se encajonaba a 22ch del contenedor */
-.portada .txt{max-width:min(92vw,1000px)}
-.portada h1{max-width:17ch;margin-inline:auto;text-wrap:balance}
-@media (max-width:760px){.portada .txt{max-width:94vw}.portada h1{max-width:15ch}}
+/* ---------- la casa de un vistazo ---------- */
+.vistazo{
+  max-width:var(--ancho-texto);margin:var(--seccion-corta) auto 0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0 clamp(2rem,4vw,4rem);
+}
+/* .servicio y no .vista: «vista» es la clase que site.js pone a cada .rev al aparecer */
+.servicio{display:grid;grid-template-columns:auto 1fr;gap:1.25rem;padding:1.9rem 0;border-top:1px solid var(--filete)}
+.servicio svg{width:26px;height:26px;fill:none;stroke:var(--tinta);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;margin-top:.3rem}
+.servicio h3{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.45rem}
+.servicio p{font-size:.88rem;color:var(--texto);line-height:1.6}
+@media (max-width:1000px){.vistazo{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.vistazo{grid-template-columns:1fr}}
+
+/* ---------- tarjetas de plataformas ---------- */
+.resena{align-items:flex-start;gap:.9rem}
+.resena .puntaje b{font-size:3rem;line-height:1}
+.resena .puntaje span{display:block;margin-top:.3rem}
+.resena h3{font-family:var(--serif);font-weight:400;font-size:1.5rem}
+.resena .liga{margin-top:.6rem}
+
+/* ---------- reseñas con cita ---------- */
+.resena blockquote{font-family:var(--serif);font-size:1.15rem;line-height:1.5}
+.resena footer{font-size:.78rem;color:var(--piedra);line-height:1.8}
+.resena footer b{display:block;font-weight:400;color:var(--tinta);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.2rem}
+.resena footer .liga{margin-top:.6rem}
+.resenas .puntajes{margin-top:var(--seccion-corta);padding-top:var(--seccion-corta);border-top:1px solid var(--filete)}
+.resenas .puntaje{transition:color .3s}
+.resenas .puntaje:hover{color:var(--laton)}
+
+/* =========================================================
+   Ajustes de tableta y teléfono
+   ========================================================= */
+
+/* tableta: dos columnas donde antes caía a una sola */
+@media (min-width:641px) and (max-width:1000px){
+  .resenas .lista{grid-template-columns:1fr 1fr}
+  .resenas .resena:last-child{grid-column:1/-1}
+  .otras .lista{grid-template-columns:1fr 1fr}
+  .otras .lista a:last-child{grid-column:1/-1}
+}
+
+/* el mapa necesita una señal visible donde no hay cursor */
+@media (hover:none){
+  .mapa-activar{background:rgba(28,28,26,.3);color:var(--marfil)}
+}
+
+@media (max-width:640px){
+  /* los filetes verticales se rompen al cambiar de renglón */
+  .ficha,.suite .datos,.tarjeta-exp .datos{flex-direction:column;gap:.5rem}
+  .ficha span,.suite .datos span{padding:0}
+  .ficha span + span,.suite .datos span + span{border-left:0}
+
+  /* la cita de portada y los titulares no se parten en exceso */
+  .cita blockquote{max-width:14ch}
+  .suite-cuerpo h1{font-size:clamp(1.9rem,8vw,2.6rem)}
+
+  /* el mapa muy apaisado se queda sin altura útil */
+  .mapa{aspect-ratio:4/3}
+
+  /* el carril aprovecha el ancho completo del teléfono */
+  .carril{grid-auto-columns:min(78vw,300px)}
+
+  /* la galería y las fotos de suite, más altas que anchas no */
+  .suite-fotos a:first-child{aspect-ratio:3/2}
+
+  /* el resumen de reserva deja de competir con el formulario */
+  .resumen{margin-top:1rem}
+}
+
+/* las fotos van dentro de <picture>; que no estorbe a los width/height:100% de las img */
+picture{display:contents}

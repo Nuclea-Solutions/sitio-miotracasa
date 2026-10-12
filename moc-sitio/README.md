@@ -25,6 +25,24 @@ el dato en `build.py` y se corre:
 
     python3 pages.py
 
+Escribe las páginas en esta misma carpeta. No se editan los HTML a mano: cualquier
+cambio hecho directo en un HTML se pierde en la siguiente regeneración.
+
+## Fotos
+Viven en `assets/fotos/<nombre>-<ancho>.jpg` y `.webp` (JPEG progresivo y WebP,
+calidad 75). Las de tarjeta van en 600 y 1200 px; las de portada en 1200 y su ancho
+original, hasta 1800. Las páginas las sirven con `<picture>` y `srcset`, y los anchos
+disponibles se leen del disco al regenerar.
+
+Para agregar o cambiar una foto:
+1. Darla de alta en la lista `CAT` de `fotos.py` con su nombre y su uso
+   (`c` tarjeta, `h` portada, `hc` ambos) y correr
+   `python3 fotos.py "<carpeta de originales>" assets/fotos` (necesita Pillow).
+2. Agregar su texto alternativo en `FOTOS` de `build.py` y usarla en `pages.py`
+   o en `fotos=` de la suite. Si es vertical y la retícula la recorta, su encuadre
+   va en `FOCO`.
+3. `python3 pages.py`.
+
 ## Publicar con GitHub Pages
 1. Subir el contenido de esta carpeta a la raíz del repositorio.
 2. Settings → Pages → Source: *Deploy from a branch* → `main`, carpeta `/ (root)`.
@@ -36,12 +54,10 @@ el dato en `build.py` y se corre:
 ### Decisiones que necesita MOC
 - **Formulario**: `reservar.html` apunta a `https://formspree.io/f/REEMPLAZAR`.
   Crear la cuenta y poner el endpoint, o conectar el motor de reservas.
-- **Reseñas**: los puntajes ya son reales (Expedia 9.6, Hotels.com 9.4, 4.8/5 de 107
-  reseñas). Faltan los tres textos: deben ser reseñas reales con permiso del huésped.
-- **Ofertas**: las tres de la portada son de ejemplo. Confirmar o quitarlas.
-- **Imágenes**: en pausa, se están editando. Las de las suites se cargan todavía
-  desde `miotracasa.mx/images/...`; al tenerlas, copiarlas a `assets/`, generar WebP
-  y varios tamaños con `srcset`.
+- **Reseñas**: las tres publicadas son reales (TripAdvisor, Hotels.com, Trip.com),
+  sin nombre y con enlace a la fuente. No escribir reseñas nuevas.
+- **Ofertas**: se quitaron a propósito; las promociones no están autorizadas. En su
+  lugar va «La casa, de un vistazo».
 - **Video**: el de portada salió de un archivo de WhatsApp (832×464). Reemplazar con
   el original del dron y generar una versión vertical para móvil.
 

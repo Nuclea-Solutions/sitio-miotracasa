@@ -56,7 +56,7 @@
       <a href="casa.html">La casa</a>
       <a href="index.html#experiencias">Sayulita</a>
       <a href="index.html#casa-completa">Casa completa</a>
-      <a href="index.html#ofertas">Ofertas</a>
+      <a href="casa.html#servicios">Servicios</a>
     </nav>
     <div class="secundario">
       <a href="contacto.html">Contacto</a>
@@ -88,7 +88,7 @@
   </section>
 
   <section class="bloque rev" id="suites" aria-labelledby="t-suites">
-    <div class="foto"><img src="https://miotracasa.mx/images/room/06_sayulita_01alt.jpg" alt="Master Suite Sayulita" loading="lazy" decoding="async"></div>
+    <div class="foto"><picture><source type="image/webp" srcset="assets/fotos/suite-sayulita-recamara-600.webp 600w, assets/fotos/suite-sayulita-recamara-1200.webp 1200w, assets/fotos/suite-sayulita-recamara-1561.webp 1561w" sizes="(max-width: 1000px) 100vw, 60vw"><img src="assets/fotos/suite-sayulita-recamara-1200.jpg" srcset="assets/fotos/suite-sayulita-recamara-600.jpg 600w, assets/fotos/suite-sayulita-recamara-1200.jpg 1200w, assets/fotos/suite-sayulita-recamara-1561.jpg 1561w" sizes="(max-width: 1000px) 100vw, 60vw" width="1561" height="1008" alt="Recámara de la Master Suite Sayulita con vista al mar" loading="lazy" decoding="async"></picture></div>
     <div class="texto">
       <p class="rotulo">Suites</p>
       <h2 class="display" id="t-suites">Siete formas de quedarse</h2>
@@ -97,42 +97,46 @@
     </div>
   </section>
 
-  <section class="ofertas rev" id="ofertas" aria-labelledby="t-ofertas">
+  <section class="ofertas rev" id="la-casa" aria-labelledby="t-casa">
     <div class="centro">
-      <p class="rotulo">Ofertas</p>
-      <h2 class="display" id="t-ofertas">Quédate más</h2>
-      <p>Tarifas directas, sin intermediarios y con desayuno incluido siempre.</p>
+      <p class="rotulo">Servicios</p>
+      <h2 class="display" id="t-casa">La casa, de un vistazo</h2>
+      <p>Todo lo de abajo va incluido en cualquier suite, sin costo adicional y sin tener que pedirlo.</p>
     </div>
-    <div class="lista">
-      <article class="oferta">
-        <div class="foto"><img src="https://miotracasa.mx/images/room/03_sol_01alt.jpg" alt="Reserva anticipada" loading="lazy" decoding="async"></div>
-        <p class="rotulo">Reserva anticipada</p>
-        <h3>Treinta días antes</h3>
-        <p>Reserva con un mes de anticipación y llévate un quince por ciento sobre la tarifa de temporada, con desayuno para dos.</p>
-        <a class="liga" href="reservar.html">Ver la oferta</a>
+    <div class="vistazo">
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h12v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V9Z"/><path d="M16 10h2.5a2.5 2.5 0 0 1 0 5H16"/><path d="M7 5.5c0-1 1-1 1-2M11 5.5c0-1 1-1 1-2"/></svg>
+        <div><h3>Desayuno incluido</h3><p>Todas las reservas incluyen desayuno diario para dos personas, servido donde te acomodes.</p></div>
       </article>
-      <article class="oferta">
-        <div class="foto"><img src="https://miotracasa.mx/images/room/07_palapa_01.jpg" alt="Estancia larga" loading="lazy" decoding="async"></div>
-        <p class="rotulo">Estancia larga</p>
-        <h3>Cuatro noches, pagas tres</h3>
-        <p>De mayo a octubre, la cuarta noche corre por cuenta de la casa. Aplica en todas las suites menos las master.</p>
-        <a class="liga" href="reservar.html">Ver la oferta</a>
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 16c1.6 0 1.6 1.4 3.2 1.4S7.8 16 9.4 16s1.6 1.4 3.2 1.4S14.2 16 15.8 16s1.6 1.4 3.2 1.4S20.6 16 22 16"/><path d="M3 20c1.6 0 1.6 1.4 3.2 1.4S7.8 20 9.4 20s1.6 1.4 3.2 1.4S14.2 20 15.8 20s1.6 1.4 3.2 1.4S20.6 20 22 20"/><path d="M8 17V5a2 2 0 0 1 4 0M16 17V5a2 2 0 0 0-4 0"/><path d="M8 9h8"/></svg>
+        <div><h3>Alberca y camastros</h3><p>Abierta de 8:00 a medianoche, con cabañas, sombrillas y camastros sin costo.</p></div>
       </article>
-      <article class="oferta">
-        <div class="foto"><img src="https://miotracasa.mx/images/room/04_agua_01.jpg" alt="Luna de miel" loading="lazy" decoding="async"></div>
-        <p class="rotulo">Luna de miel</p>
-        <h3>Suite Agua con jacuzzi</h3>
-        <p>Terraza privada, entrada independiente y vista parcial al mar. Incluye botella de espumoso y desayuno servido en la terraza.</p>
-        <a class="liga" href="reservar.html">Ver la oferta</a>
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16l-8 8Z"/><path d="M12 12v7"/><path d="M8.5 19h7"/><path d="M15 7.5c2-2 4-1 4-1"/></svg>
+        <div><h3>Bar junto a la alberca</h3><p>Barra a pie de alberca para la tarde, sin tener que salir de la casa.</p></div>
+      </article>
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c0-4.5 3.5-8 8-8 0 4.5-3.5 8-8 8Z"/><path d="M12 21c0-4.5-3.5-8-8-8 0 4.5 3.5 8 8 8Z"/><path d="M12 21c-1.5-4 0-8.5 2.5-11-2.5 1-4.5 3-5 5.5"/></svg>
+        <div><h3>Masaje y spa</h3><p>Servicios de spa y masaje que se agendan desde la casa, con terapeutas del pueblo.</p></div>
+      </article>
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16l-1.6 5.5a3 3 0 0 1-2.9 2.1H8.5a3 3 0 0 1-2.9-2.1L4 10Z"/><path d="M8 21l1-3M16 21l-1-3"/><path d="M9.5 6.5c0-1 1-1.2 1-2.2M14 6.5c0-1 1-1.2 1-2.2"/></svg>
+        <div><h3>Asador</h3><p>Asador Weber para uso de los huéspedes, junto a la alberca o en la terraza grande.</p></div>
+      </article>
+      <article class="servicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 9a15 15 0 0 1 19 0"/><path d="M5.5 12.5a10.5 10.5 0 0 1 13 0"/><path d="M8.5 16a6 6 0 0 1 7 0"/><circle cx="12" cy="19.5" r=".6" fill="currentColor" stroke="none"/></svg>
+        <div><h3>WiFi sin costo</h3><p>Red disponible en toda la casa, incluidas las terrazas y el jardín.</p></div>
       </article>
     </div>
+    <p class="centro" style="margin-top:var(--seccion-corta)"><a class="liga" href="casa.html#servicios">Ver todos los servicios</a></p>
   </section>
 
   <section class="rev seccion-sayulita" id="experiencias" aria-labelledby="t-say">
     <div class="centro limite">
       <p class="rotulo">Sayulita</p>
       <h2 class="display" id="t-say">Todo pasa caminando</h2>
-      <p>Estamos a media cuadra de la plaza y a tres del mar. No hace falta coche, ni taxi, ni salir a buscar nada.</p>
+      <p>Estamos a media cuadra de la plaza y a tres del mar. No hace falta coche, ni taxi, ni salir a buscar nada: el pueblo entero está a pie, con todo lo que eso trae.</p>
     </div>
     <div class="carril" tabindex="0" role="group" aria-label="Todo pasa caminando">
       <article class="tarjeta-exp">
@@ -169,7 +173,7 @@
   </section>
 
   <section class="bloque rev" aria-labelledby="t-des">
-    <div class="foto"><img src="https://miotracasa.mx/images/room-single/03_sol_04.jpg" alt="Sala de una suite" loading="lazy" decoding="async"></div>
+    <div class="foto"><picture><source type="image/webp" srcset="assets/fotos/casa-comedor-palapa-1200.webp 1200w, assets/fotos/casa-comedor-palapa-1448.webp 1448w" sizes="(max-width: 1000px) 100vw, 60vw"><img src="assets/fotos/casa-comedor-palapa-1200.jpg" srcset="assets/fotos/casa-comedor-palapa-1200.jpg 1200w, assets/fotos/casa-comedor-palapa-1448.jpg 1448w" sizes="(max-width: 1000px) 100vw, 60vw" width="1448" height="1086" alt="Comedor bajo la palapa" loading="lazy" decoding="async"></picture></div>
     <div class="texto">
       <p class="rotulo">Desayuno</p>
       <h2 class="display" id="t-des">Servido donde te acomodes</h2>
@@ -182,32 +186,31 @@
     <header>
       <p class="rotulo">Reseñas</p>
       <h2 class="display" id="t-res">Lo que dicen quienes se quedaron</h2>
-      <p>Calificaciones verificadas en las plataformas donde también se puede reservar la casa.</p>
-      <div class="puntajes">
-        <p class="puntaje"><b>9.6</b><span>Expedia</span></p>
-        <p class="puntaje"><b>9.4</b><span>Hotels.com</span></p>
-        <p class="puntaje"><b>4.8 / 5</b><span>107 reseñas</span></p>
-      </div>
-      <p class="ayuda" style="margin-top:1.5rem">Pendiente: sustituir los tres textos por reseñas reales, con permiso del huésped.</p>
+      <p>Reseñas publicadas por huéspedes verificados en las plataformas. Las dejamos sin nombre; quien quiera leerlas completas puede ir a la fuente.</p>
     </header>
     <div class="lista">
       <article class="resena">
-        <blockquote>Texto de reseña pendiente.</blockquote>
-        <footer><b>Nombre del huésped</b>País · Mes 2026</footer>
+        <blockquote>“This place has a great friendly staff. Clean. Beautiful shared areas and rooftop.”</blockquote>
+        <footer><b>TripAdvisor</b>Huésped verificado · febrero 2023<br><a class="liga" href="https://www.tripadvisor.com/Hotel_Review-g445056-d17532206-Reviews-Mi_Otra_Casa-Sayulita_Pacific_Coast.html" rel="noopener">Ver la reseña</a></footer>
       </article>
       <article class="resena">
-        <blockquote>Texto de reseña pendiente.</blockquote>
-        <footer><b>Nombre del huésped</b>País · Mes 2026</footer>
+        <blockquote>“The room was beautiful as well as the common areas.”</blockquote>
+        <footer><b>Hotels.com</b>Huésped verificado · mayo 2026<br><a class="liga" href="https://www.hotels.com/ho738695264/mi-otra-casa-adults-only-sayulita-mexico/" rel="noopener">Ver la reseña</a></footer>
       </article>
       <article class="resena">
-        <blockquote>Texto de reseña pendiente.</blockquote>
-        <footer><b>Nombre del huésped</b>País · Mes 2026</footer>
+        <blockquote>“We just stayed at Mi Otra Casa and it was fabulous.”</blockquote>
+        <footer><b>Trip.com</b>Huésped verificado<br><a class="liga" href="https://www.trip.com/hotels/sayulita-hotel-detail-21860524/mi-otra-casa/" rel="noopener">Ver la reseña</a></footer>
       </article>
+    </div>
+    <div class="puntajes">
+        <a class="puntaje" href="https://www.expedia.mx/Puerto-Vallarta-Hoteles-Mi-Otra-Casa-Adults-Only.h23052977.Informacion-Hotel" rel="noopener"><b>9.6</b><span>Expedia</span></a>
+        <a class="puntaje" href="https://www.hotels.com/ho738695264/mi-otra-casa-adults-only-sayulita-mexico/" rel="noopener"><b>9.6</b><span>Hotels.com</span></a>
+        <a class="puntaje" href="https://www.booking.com/hotel/mx/mi-otra-casa.html" rel="noopener"><b>10</b><span>Booking.com</span></a>
     </div>
   </section>
 
   <section class="bloque rev" id="casa-completa" aria-labelledby="t-comp">
-    <div class="foto"><img src="https://miotracasa.mx/images/room/04_agua_01alt.jpg" alt="Terraza compartida" loading="lazy" decoding="async"></div>
+    <div class="foto"><picture><source type="image/webp" srcset="assets/fotos/casa-alberca-atardecer-1200.webp 1200w, assets/fotos/casa-alberca-atardecer-1536.webp 1536w" sizes="(max-width: 1000px) 100vw, 60vw"><img src="assets/fotos/casa-alberca-atardecer-1200.jpg" srcset="assets/fotos/casa-alberca-atardecer-1200.jpg 1200w, assets/fotos/casa-alberca-atardecer-1536.jpg 1536w" sizes="(max-width: 1000px) 100vw, 60vw" width="1536" height="1024" alt="Sala junto a la alberca al atardecer" loading="lazy" decoding="async"></picture></div>
     <div class="texto">
       <p class="rotulo">Casa completa</p>
       <h2 class="display" id="t-comp">Para cuando vienen todos</h2>
