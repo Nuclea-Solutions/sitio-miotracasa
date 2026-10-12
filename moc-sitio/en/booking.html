@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book — Mi Otra Casa, Sayulita</title>
+<meta name="description" content="Check availability and book direct at Mi Otra Casa, Sayulita. Direct rates with breakfast included.">
+<meta name="theme-color" content="#FDFDFD">
+<link rel="canonical" href="https://miotracasa.mx/en/booking.html">
+<link rel="alternate" hreflang="en" href="https://miotracasa.mx/en/booking.html">
+<link rel="alternate" hreflang="es" href="https://miotracasa.mx/reservar.html">
+<link rel="alternate" hreflang="x-default" href="https://miotracasa.mx/reservar.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mi Otra Casa">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Book — Mi Otra Casa, Sayulita">
+<meta property="og:description" content="Check availability and book direct at Mi Otra Casa, Sayulita. Direct rates with breakfast included.">
+<meta property="og:url" content="https://miotracasa.mx/en/booking.html">
+<meta property="og:image" content="https://miotracasa.mx/assets/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" defer></script>
+</head>
+<body>
+
+<a class="salto" href="#contenido">Skip to content</a>
+
+<header class="barra">
+  <button class="menu-btn" id="abrir" aria-expanded="false" aria-controls="cortina">
+    <span class="hamb" aria-hidden="true"><i></i><i></i><i></i></span><span>Menu</span>
+  </button>
+  <a class="logo" href="index.html" aria-label="Mi Otra Casa">
+    <img src="../assets/logo-mi-otra-casa.png" width="900" height="125" alt="Mi Otra Casa">
+  </a>
+  <a class="reservar" href="booking.html">Book</a>
+</header>
+
+<div class="cortina" id="cortina" aria-hidden="true">
+  <div class="velo"></div>
+  <div class="panel">
+    <button class="cerrar" id="cerrar" aria-label="Close menu">&#10005;</button>
+    <a class="destacado" href="booking.html">
+      <span><small>Reservations</small><b>Check availability</b></span>
+      <i aria-hidden="true">&rsaquo;</i>
+    </a>
+    <nav aria-label="Menu">
+      <a href="suites.html">Suites <i aria-hidden="true">&rsaquo;</i></a>
+      <a href="house.html">The house</a>
+      <a href="index.html#experiencias">Sayulita</a>
+      <a href="index.html#casa-completa">Whole house</a>
+      <a href="index.html#ofertas">Offers</a>
+    </nav>
+    <div class="secundario">
+      <a href="contact.html">Contact</a>
+      <a href="policies.html">Policies</a>
+      <a href="https://www.instagram.com/miotracasa/" rel="noopener">Instagram</a>
+    </div>
+    <p class="idiomas">
+      <a href="#" aria-current="true">EN</a>
+      <span aria-hidden="true">·</span>
+      <a href="../reservar.html" hreflang="es">ES</a>
+    </p>
+    <p class="datos">Marlin 18, Sayulita, Nayarit<br><a href="mailto:contact@miotracasa.mx">contact@miotracasa.mx</a></p>
+  </div>
+</div>
+
+<main id="contenido">
+
+  <section class="limite" style="padding-block:var(--seccion) 0;max-width:720px;text-align:center">
+    <p class="rotulo">Reservations</p>
+    <h1 class="display" style="font-size:clamp(2rem,4.4vw,3.2rem);line-height:1.08;margin:1rem 0">Book direct with the house</h1>
+    <p style="color:var(--texto)">Direct rate, breakfast included and no platform commission. We confirm availability the same day.</p>
+  </section>
+
+  <div class="form-envoltura">
+    <form class="formulario" id="form-reserva" method="post" action="https://formspree.io/f/REEMPLAZAR">
+      <div class="fila">
+        <p class="campo"><label for="llegada">Check-in</label>
+          <input type="date" id="llegada" name="llegada" required></p>
+        <p class="campo"><label for="salida">Check-out</label>
+          <input type="date" id="salida" name="salida" required></p>
+      </div>
+      <div class="fila">
+        <p class="campo"><label for="adultos">Adults</label>
+          <select id="adultos" name="adultos">
+            <option>1</option><option selected>2</option><option>3</option><option>4</option>
+          </select></p>
+        <p class="campo"><label for="suite">Suite</label>
+          <select id="suite" name="suite">
+            <option value="">No preference</option>
+            <option value="sayulita">Master Suite Sayulita — $420 USD</option>
+            <option value="flores">Master Suite Flores — $420 USD</option>
+            <option value="agua">Suite Agua — $360 USD</option>
+            <option value="palapa">Suite Palapa — $360 USD</option>
+            <option value="sol">Suite Sol — $360 USD</option>
+            <option value="luna">Jr. Suite Luna — $240 USD</option>
+            <option value="arena">Jr. Suite Arena — $240 USD</option>
+          </select></p>
+      </div>
+      <div class="fila">
+        <p class="campo"><label for="nombre">Full name</label>
+          <input type="text" id="nombre" name="nombre" required autocomplete="name" placeholder=" "></p>
+        <p class="campo"><label for="correo">Email</label>
+          <input type="email" id="correo" name="correo" required autocomplete="email" placeholder=" "></p>
+      </div>
+      <p class="campo"><label for="telefono">Phone or WhatsApp</label>
+        <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder=" "></p>
+      <p class="campo"><label for="mensaje">Anything we should know</label>
+        <textarea id="mensaje" name="mensaje" rows="4" placeholder=" "></textarea></p>
+      <p class="casilla"><input type="checkbox" id="acepto" name="acepto" required>
+        <label for="acepto">I have read the <a href="privacy.html" style="border-bottom:1px solid var(--filete)">privacy notice</a> and the <a href="policies.html" style="border-bottom:1px solid var(--filete)">policies</a>.</label></p>
+      <button class="boton" type="submit">Send request</button>
+      <p class="ayuda">This is a request, not a charge: no card details at this stage.</p>
+    </form>
+
+    <aside class="resumen">
+      <h2>Your stay</h2>
+      <dl>
+        <div><dt>Check-in</dt><dd id="r-llegada">—</dd></div>
+        <div><dt>Check-out</dt><dd id="r-salida">—</dd></div>
+        <div><dt>Nights</dt><dd id="r-noches">—</dd></div>
+        <div><dt>Suite</dt><dd id="r-suite">—</dd></div>
+      </dl>
+      <p class="nota" id="r-aviso">Two-night minimum, three in high season and holiday weekends.</p>
+      <p class="nota">Rather write to us? <a href="mailto:contact@miotracasa.mx" style="border-bottom:1px solid var(--filete)">contact@miotracasa.mx</a></p>
+    </aside>
+  </div>
+
+  <section class="cierre">
+    <h2 class="display">The whole house</h2>
+    <p>For fourteen people, with a garden, a pool and a kitchen. Whole-house dates are quoted separately.</p>
+    <a class="boton" href="contact.html">Write to the house</a>
+  </section>
+
+</main>
+
+<footer class="pie-sitio">
+  <div class="pie">
+    <div class="pie-marca">
+      <img src="../assets/logo-lockup.png" width="780" height="244" alt="Mi Otra Casa, hotel boutique, Sayulita" loading="lazy">
+      <p>Marlin 18, Sayulita, Nayarit. Half a block from the plaza, three from the sand.</p>
+    </div>
+    <nav aria-labelledby="pie-casa">
+      <h2 id="pie-casa">The house</h2>
+      <ul>
+        <li><a href="house.html">About MOC</a></li>
+        <li><a href="suites.html">Suites</a></li>
+        <li><a href="house.html#servicios">Services</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="pie-reservas">
+      <h2 id="pie-reservas">Reservations</h2>
+      <ul>
+        <li><a href="booking.html">Check availability</a></li>
+        <li><a href="policies.html">Policies</a></li>
+        <li><a href="privacy.html">Privacy notice</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="pie-social">
+      <h2 id="pie-social">Follow us</h2>
+      <ul>
+        <li><a href="https://www.instagram.com/miotracasa/" rel="noopener">Instagram</a></li>
+        <li><a href="https://www.facebook.com/MOCSayulita" rel="noopener">Facebook</a></li>
+        <li><a href="mailto:contact@miotracasa.mx">contact@miotracasa.mx</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="legal">
+    <span>© 2026 Mi Otra Casa, Sayulita</span>
+    <span>Rates in USD per night, subject to season</span>
+  </div>
+</footer>
+
+</body>
+</html>
