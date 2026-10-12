@@ -15,6 +15,7 @@ RAIZ_WEB = '/sitio-miotracasa/'
 
 # ---------------------------------------------------------------- datos
 
+# Smart TV: la de Sayulita es de 42"; en Flores, Agua, Sol y Luna falta confirmar la medida.
 # fotos: la principal, la que aparece al pasar el cursor y las demás de su página (tres o cuatro)
 SUITES = [
  dict(slug='sayulita', tipo='master', nombre='Master Suite Sayulita', precio=420,
@@ -31,8 +32,8 @@ SUITES = [
              ['The highest suite in the house, and the one that best explains why MOC sits where it does: from the terrace you see the town on one side and the ocean on the other.',
               'Inside, ninety square metres with a king bed, a generous bathroom and a sitting area where the luggage of a long trip fits without getting in the way.',
               'Worth knowing before you book: it is the suite that looks most directly onto the centre of town, and in high season the music carries into the early hours. Earplugs and a white-noise machine are in the room.']),
-      extras=(['Terraza con palapa','Vista al mar','Sala independiente'],
-              ['Palapa-covered terrace','Ocean view','Separate sitting area'])),
+      extras=(['Terraza con palapa','Vista al mar','Sala independiente','Smart TV de 42 pulgadas'],
+              ['Palapa-covered terrace','Ocean view','Separate sitting area','42-inch smart TV'])),
 
  dict(slug='flores', tipo='master', nombre='Master Suite Flores', precio=420,
       m2=80, huespedes=4,
@@ -46,8 +47,8 @@ SUITES = [
               'Adentro caben cuatro adultos sin que nadie duerma de prestado, así que funciona igual para dos parejas que para una familia de adultos.'],
              ['The terrace is what sets it apart: a breakfast table, loungers for the afternoon and a view that takes in the ocean, the pool and the garden.',
               'Inside it sleeps four adults properly, so it works as well for two couples as for a family of grown-ups.']),
-      extras=(['Terraza con camastros','Vista a la alberca','Para cuatro adultos'],
-              ['Terrace with loungers','Pool view','Sleeps four adults'])),
+      extras=(['Terraza con camastros','Vista a la alberca','Para cuatro adultos','Smart TV'],
+              ['Terrace with loungers','Pool view','Sleeps four adults','Smart TV'])),
 
  dict(slug='agua', tipo='suite', nombre='Suite Agua', precio=360,
       m2=60, huespedes=2,
@@ -61,8 +62,8 @@ SUITES = [
               'El jacuzzi está en la terraza, con vista parcial al mar. Es la suite que más se reserva para aniversarios y lunas de miel.'],
              ['You enter through its own terrace, without crossing the shared areas, which makes it the most private suite in the house.',
               'The jacuzzi sits on the terrace, with a partial ocean view. It is the suite most often booked for anniversaries and honeymoons.']),
-      extras=(['Entrada independiente','Terraza grande','Vista parcial al mar'],
-              ['Private entrance','Large terrace','Partial ocean view'])),
+      extras=(['Entrada independiente','Terraza grande','Vista parcial al mar','Smart TV'],
+              ['Private entrance','Large terrace','Partial ocean view','Smart TV'])),
 
  dict(slug='palapa', tipo='suite', nombre='Suite Palapa', precio=360,
       m2=60, huespedes=2,
@@ -91,8 +92,8 @@ SUITES = [
               'Tiene dos ventanales: uno da al jardín y el otro a un traspatio lleno de plantas, al que se puede salir desde la suite. El piso de cerámica vidriada y la artesanía son lo que la vuelven distinta.'],
              ['You enter through a small sitting room with two convertible sofas, useful for an afternoon nap or an extra night.',
               'It has two large windows: one onto the garden, the other onto a planted courtyard you can step into from the room. The glazed ceramic floor and the crafts are what set it apart.']),
-      extras=(['Sala independiente','Traspatio privado','Planta baja'],
-              ['Separate sitting room','Private courtyard','Ground floor'])),
+      extras=(['Sala independiente','Traspatio privado','Planta baja','Smart TV'],
+              ['Separate sitting room','Private courtyard','Ground floor','Smart TV'])),
 
  dict(slug='luna', tipo='jr', nombre='Jr. Suite Luna', precio=240,
       m2=30, huespedes=2,
@@ -106,12 +107,12 @@ SUITES = [
               'Está en planta baja y no tiene escaleras de por medio, así que es la más cómoda para quien llega con equipaje pesado o prefiere no subir.'],
              ['Thirty square metres used well: a queen bed, a full bathroom and a garden view.',
               'It sits on the ground floor with no stairs along the way, so it is the easiest room for anyone arriving with heavy luggage.']),
-      extras=(['Sin escaleras','Vista al jardín','Cama queen'],
-              ['Step-free','Garden view','Queen bed'])),
+      extras=(['Sin escaleras','Vista al jardín','Cama queen','Smart TV'],
+              ['Step-free','Garden view','Queen bed','Smart TV'])),
 
  dict(slug='arena', tipo='jr', nombre='Jr. Suite Arena', precio=240,
       m2=30, huespedes=2,
-      fotos=('suite-arena-recamara', 'suite-arena-bano', 'casa-patio-arcos'),
+      fotos=('suite-arena-recamara', 'suite-arena-escritorio', 'suite-arena-bano', 'casa-patio-arcos'),
       rasgo=('Dos camas individuales','Two single beds'),
       cama=('Dos camas','Two beds'),
       orienta=('Interior, al jardín','Interior, onto the garden'),
@@ -149,6 +150,7 @@ FOTOS = {
  'suite-luna-entrada':      ('Entrada de la Jr. Suite Luna','Entrance to Jr. Suite Luna'),
  'suite-arena-recamara':    ('Jr. Suite Arena, dos camas individuales','Jr. Suite Arena, two single beds'),
  'suite-arena-bano':        ('Baño de la Jr. Suite Arena','Jr. Suite Arena bathroom'),
+ 'suite-arena-escritorio':  ('Escritorio de la Jr. Suite Arena, junto a la ventana al patio','Jr. Suite Arena desk, by the window onto the courtyard'),
  'casa-patio-arcos':        ('Jardín de la casa, bajo los arcos','The garden of the house, under the arches'),
  'casa-comedor-palapa':     ('Comedor bajo la palapa','Dining table under the palapa'),
  'casa-alberca-atardecer':  ('Sala junto a la alberca al atardecer','Lounge by the pool at dusk'),

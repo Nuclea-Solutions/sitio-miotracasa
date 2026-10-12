@@ -25,6 +25,7 @@ CAT = [
  ('Jr. Suite Luna/Entrada serena de hotel boutique.png','suite-luna-entrada','c'),
  ('Jr. Suite Arena/Dormitorio twin con edredones blancos y cojines.png','suite-arena-recamara','hc'),
  ('Jr. Suite Arena/Baño boutique sereno en crema y verde.png','suite-arena-bano','c'),
+ ('Jr. Suite Arena/Dormitorio cálido con textiles neutros.png','suite-arena-escritorio','c'),
  ('EXTRAS/Patio boutique con arcos y vegetación.png','casa-patio-arcos','c'),
  ('COMEDOR/Comedor tropical con mesa de cristal.png','casa-comedor-palapa','h', (0, 0, 1383, 1086)),  # corta a media columna
  ('ALBERCA/Salón junto a la piscina al atardecer.png','casa-alberca-atardecer','h'),

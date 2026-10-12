@@ -793,3 +793,6 @@ picture{display:contents}
   .suite-fotos.n4 a:nth-child(4){grid-column:1/-1}
 }
 
+/* la principal toma la altura que marcan las demás: una vertical no estira la cuadrícula */
+.suite-fotos a:first-child img{position:absolute;inset:0}
+
