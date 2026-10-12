@@ -49,9 +49,9 @@ TEXTOS = {
   say_t=('Todo pasa caminando','Everything happens on foot'),
   say_p=('Estamos a media cuadra de la plaza y a tres del mar. No hace falta coche, ni taxi, ni salir a buscar nada: el pueblo entero está a pie, con todo lo que eso trae.',
          'We are half a block from the plaza and three from the sea. No car, no taxi, nothing to go looking for: the whole town is walkable, with everything that brings.'),
-  des_t=('Servido donde te acomodes','Served wherever you settle in'),
-  des_p=('De ocho a once, en la terraza, en el jardín o en tu suite. Va incluido en todas las tarifas, siempre, sin letra chica.',
-         'From eight to eleven, on the terrace, in the garden or in your suite. Included in every rate, always, no small print.'),
+  dia_t=('Un día en la casa','A day at the house'),
+  dia_p=('Desayuno servido donde te acomodes, masaje en la terraza, el jacuzzi de la Suite Agua y la sala bajo la palapa de la azotea.',
+         'Breakfast served wherever you settle in, a massage on the terrace, the Suite Agua jacuzzi and the lounge under the rooftop palapa.'),
   comp_t=('Para cuando vienen todos','For when everyone comes'),
   comp_p=('Siete suites, terrazas compartidas, jardín y cocina, para hasta catorce personas. Se renta entera para bodas, cumpleaños y viajes de amigos.',
           'Seven suites, shared terraces, a garden and a kitchen, for up to fourteen people. The house can be booked whole for weddings, birthdays and trips with friends.'),
@@ -193,6 +193,16 @@ def pagina_index(lang):
     <p class="centro" style="margin-top:var(--seccion-corta)"><a class="liga" href="{url(lang,'casa',prof)}#servicios">{('Ver todos los servicios','See all services')[k]}</a></p>
   </section>
 
+  <section class="rev seccion-carrusel" aria-labelledby="t-dia">
+    <div class="centro limite">
+      <p class="rotulo">{t['nav_casa']}</p>
+      <h2 class="display" id="t-dia">{x['dia_t'][k]}</h2>
+      <p>{x['dia_p'][k]}</p>
+      <a class="liga" href="{url(lang,'casa',prof)}">{'Conocer la casa' if lang=='es' else 'See the house'}</a>
+    </div>
+{carrusel(a, lang, CARRUSEL)}
+  </section>
+
   <section class="rev seccion-sayulita" id="experiencias" aria-labelledby="t-say">
     <div class="centro limite">
       <p class="rotulo">Sayulita</p>
@@ -202,15 +212,6 @@ def pagina_index(lang):
     <div class="carril" tabindex="0" role="group" aria-label="{x['say_t'][k]}">
 {exps}
     </div>
-  </section>
-
-  <section class="rev seccion-carrusel" aria-labelledby="t-des">
-    <div class="centro limite">
-      <p class="rotulo">{'Desayuno' if lang=='es' else 'Breakfast'}</p>
-      <h2 class="display" id="t-des">{x['des_t'][k]}</h2>
-      <p>{x['des_p'][k]}</p>
-    </div>
-{carrusel(a, lang, CARRUSEL)}
   </section>
 
   {resenas(lang, prof)}

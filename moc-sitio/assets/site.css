@@ -742,7 +742,9 @@ picture{display:contents}
 @media print{.reservar-movil{display:none!important}}
 
 /* ---------- carrusel de la portada ---------- */
-.seccion-carrusel{padding-block:var(--seccion);border-top:1px solid var(--filete)}
+/* va después de «La casa, de un vistazo», que ya trae su filete abajo */
+.seccion-carrusel{padding-block:var(--seccion);border-bottom:1px solid var(--filete)}
+.seccion-carrusel .centro .liga{margin-top:1.8rem}
 .carrusel{max-width:var(--ancho);margin:clamp(2.5rem,5vw,4rem) auto 0;padding-inline:var(--gutter);outline-offset:6px}
 .carrusel .pista{
   display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3.8fr) minmax(0,1fr);
