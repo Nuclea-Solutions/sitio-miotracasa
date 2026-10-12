@@ -163,6 +163,7 @@ FOTOS = {
  'casa-palapa-rooftop':     ('Sala bajo la palapa de la azotea','Lounge under the rooftop palapa'),
  'casa-masaje':             ('Masaje en la terraza','Massage on the terrace'),
  'casa-hora-azul':          ('La casa en la hora azul','The house at blue hour'),
+ 'portada-atardecer':       ('Atardecer sobre Sayulita y el mar desde la terraza de la casa','Sunset over Sayulita and the sea from the terrace of the house'),
 }
 
 # encuadre de las verticales cuando la retícula las recorta a 3:2 o cuadrado
@@ -212,18 +213,21 @@ def foto_url(a, nombre, w=None):
     """Ruta a una versión JPEG; sin ancho, la más grande."""
     return f'{a}fotos/{nombre}-{w or anchos(nombre)[-1]}.jpg'
 
-def foto(a, nombre, lang, tam, clase='', alt=None, perezosa=True, extra=''):
+def foto(a, nombre, lang, tam, clase='', alt=None, perezosa=True, extra='', vertical=None):
     """<picture> con WebP y JPEG en todos los anchos que existan.
-    a: prefijo hasta assets/ · alt=None usa el texto del catálogo · alt='' la marca decorativa."""
+    a: prefijo hasta assets/ · alt=None usa el texto del catálogo · alt='' la marca decorativa.
+    vertical: otro recorte de la misma foto para pantallas en vertical (teléfono, tableta parada)."""
     ws = anchos(nombre)
     w0 = ws[-1] if len(ws) == 1 else ws[-2]
     texto = FOTOS[nombre]['en' == lang] if alt is None else alt
-    srcset = lambda ext: ', '.join(f'{a}fotos/{nombre}-{w}.{ext} {w}w' for w in ws)
+    srcset = lambda ext, n=nombre: ', '.join(f'{a}fotos/{n}-{w}.{ext} {w}w' for w in anchos(n))
     attrs = f' class="{clase}"' if clase else ''
     attrs += f' alt="{texto}"' + ('' if texto else ' aria-hidden="true"')
     attrs += ' loading="lazy"' if perezosa else ''
     attrs += f' style="object-position:{FOCO[nombre]}"' if nombre in FOCO else ''
-    return (f'<picture><source type="image/webp" srcset="{srcset("webp")}" sizes="{TAM[tam]}">'
+    vert = ''.join(f'<source media="(orientation: portrait)"{t} srcset="{srcset(ext, vertical)}" sizes="{TAM[tam]}">'
+                   for ext, t in (('webp', ' type="image/webp"'), ('jpg', ''))) if vertical else ''
+    return (f'<picture>{vert}<source type="image/webp" srcset="{srcset("webp")}" sizes="{TAM[tam]}">'
             f'<img src="{a}fotos/{nombre}-{w0}.jpg" srcset="{srcset("jpg")}" sizes="{TAM[tam]}" '
             f'width="{ws[-1]}" height="{alto(nombre, ws[-1])}"{attrs} decoding="async"{extra}></picture>')
 

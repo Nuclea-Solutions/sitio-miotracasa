@@ -1,9 +1,10 @@
 # Optimiza las fotos editadas de MOC: JPEG progresivo y WebP en dos o tres anchos.
-# Uso: python3 fotos.py "<carpeta de originales>" assets/fotos   (necesita Pillow)
+# Uso: python3 fotos.py "<carpeta de originales>" assets/fotos [nombre ...]   (necesita Pillow)
 import sys, os, io
 from PIL import Image, ImageCms
 SRC, DST = sys.argv[1], sys.argv[2]
 # rol: c = tarjeta (600, 1200) · h = portada (1200, 1800) · hc = ambos
+# un cuarto dato opcional recorta el original antes: (izquierda, arriba, derecha, abajo) en px
 CAT = [
  ('Master Suite Sayulita/27b184ea-40da-4d4f-a90c-0cd69a2504f4.png','suite-sayulita-recamara','hc'),
  ('Master Suite Sayulita/Persiana romana crema perfectamente alisada.png','suite-sayulita-sala','c'),
@@ -24,7 +25,7 @@ CAT = [
  ('Jr. Suite Arena/Dormitorio twin con edredones blancos y cojines.png','suite-arena-recamara','hc'),
  ('Jr. Suite Arena/Baño boutique sereno en crema y verde.png','suite-arena-bano','c'),
  ('EXTRAS/Patio boutique con arcos y vegetación.png','casa-patio-arcos','c'),
- ('COMEDOR/Comedor tropical con mesa de cristal.png','casa-comedor-palapa','h'),
+ ('COMEDOR/Comedor tropical con mesa de cristal.png','casa-comedor-palapa','h', (0, 0, 1383, 1086)),  # corta a media columna
  ('ALBERCA/Salón junto a la piscina al atardecer.png','casa-alberca-atardecer','h'),
  ('ROOFTOP/Terraza de lujo frente al mar.png','casa-terraza-mar','h'),
  ('EXTRAS/Balcón de palapa con luz cálida.png','casa-balcon-pueblo','h'),
@@ -38,18 +39,23 @@ CAT = [
  ('ROOFTOP/Palapa boutique con luz natural serena.png','casa-palapa-rooftop','h'),
  ('ROOFTOP/Masaje tropical, sin telas ni botellas.png','casa-masaje','c'),
  ('EXTRAS/Hotel de lujo en hora azul.png','casa-hora-azul','c'),
+ ('ROOFTOP/Terraza de lujo al atardecer.png','portada-atardecer','h'),
+ ('ROOFTOP/Terraza de lujo al atardecer.png','portada-atardecer-vertical','c', (563, 0, 1331, 1024)),  # 3:4 sobre palmas y farol
 ]
 ANCHOS = {'c': (600, 1200), 'h': (1200, 1800), 'hc': (600, 1200, 1800)}
 SRGB = ImageCms.createProfile('sRGB')
 os.makedirs(DST, exist_ok=True)
 tot_in = tot_out = 0
-for rel, nombre, rol in CAT:
+solo = sys.argv[3:]  # nombres a procesar; sin ellos, todos
+for rel, nombre, rol, *recorte in CAT:
+    if solo and nombre not in solo: continue
     ruta = os.path.join(SRC, rel)
     im = Image.open(ruta)
     icc = im.info.get('icc_profile')
     if icc:  # todo a sRGB para que el navegador no adivine
         im = ImageCms.profileToProfile(im, ImageCms.ImageCmsProfile(io.BytesIO(icc)), SRGB, outputMode='RGB')
     im = im.convert('RGB')
+    if recorte: im = im.crop(recorte[0])
     W, H = im.size
     tot_in += os.path.getsize(ruta)
     for w in sorted({min(a, W) for a in ANCHOS[rol]}):

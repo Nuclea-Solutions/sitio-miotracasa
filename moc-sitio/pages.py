@@ -60,11 +60,33 @@ TEXTOS = {
  ),
 }
 
+# La portada lleva foto mientras no haya una versión vertical del video del dron.
+# Para volver al video: PORTADA_VIDEO = True.
+PORTADA_VIDEO = False
+
+def portada(lang, t):
+    if PORTADA_VIDEO:
+        return portada_video(lang, t)
+    a = 'assets/' if lang == 'es' else '../assets/'
+    x = TEXTOS['index']; k = i(lang)
+    fondo = foto(a, 'portada-atardecer', lang, 'portada', clase='fondo', perezosa=False,
+                 extra=' fetchpriority="high"', vertical='portada-atardecer-vertical')
+    return f'''
+  <section class="portada portada--inicio">
+    {fondo}
+    <div class="txt">
+      <h1 class="display">{x['h1'][k]}</h1>
+      <p class="rotulo">{x['lugar'][k]}</p>
+    </div>
+    <p class="baja" aria-hidden="true"><span></span>{'Desliza' if lang=='es' else 'Scroll'}</p>
+  </section>
+'''
+
 def portada_video(lang, t):
     a = 'assets/' if lang == 'es' else '../assets/'
     x = TEXTOS['index']; k = i(lang)
     return f'''
-  <section class="portada portada--video">
+  <section class="portada portada--inicio">
     <video class="fondo" id="video" autoplay muted loop playsinline preload="metadata"
            poster="{a}portada-poster.jpg" aria-label="{'Vista aérea de Sayulita' if lang=='es' else 'Aerial view of Sayulita'}">
       <source src="{a}portada.mp4" type="video/mp4">
@@ -115,7 +137,7 @@ def pagina_index(lang):
     return (cabeza(lang, x['titulo'][k], x['desc'][k], 'index', prof, extra=extra)
       + barra(lang, 'index', prof)
       + '\n<main id="contenido">\n'
-      + portada_video(lang, t)
+      + portada(lang, t)
       + f'''
   <section class="bloque rev" id="suites" aria-labelledby="t-suites">
     <div class="foto">{foto(a, 'suite-sayulita-recamara', lang, 'bloque')}</div>
