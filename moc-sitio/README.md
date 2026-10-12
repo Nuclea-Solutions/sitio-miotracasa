@@ -48,6 +48,8 @@ Para agregar o cambiar una foto:
 2. Settings → Pages → Source: *Deploy from a branch* → `main`, carpeta `/ (root)`.
 3. Dominio propio: Settings → Pages → Custom domain → `miotracasa.mx`,
    y apuntar en el DNS los registros A de GitHub Pages.
+   Al hacerlo, cambiar `RAIZ_WEB` en `build.py` de `/sitio-miotracasa/` a `/` y
+   regenerar: el 404 usa esa ruta porque se sirve a cualquier profundidad.
 
 ## Antes de publicar — pendientes reales
 

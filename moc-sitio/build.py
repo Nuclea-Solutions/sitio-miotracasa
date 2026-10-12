@@ -9,6 +9,9 @@ import os, re, shutil, html
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))   # el sitio vive junto a los generadores
 DOMINIO = 'https://miotracasa.mx'
+# ruta del sitio en el servidor; el 404 la necesita porque se sirve a cualquier profundidad.
+# En GitHub Pages es /sitio-miotracasa/; al conectar miotracasa.mx pasa a ser /
+RAIZ_WEB = '/sitio-miotracasa/'
 
 # ---------------------------------------------------------------- datos
 
@@ -66,7 +69,7 @@ SUITES = [
       fotos=('suite-palapa-recamara', 'suite-palapa-terraza', 'suite-palapa-dosel'),
       rasgo=('Vista al mar bajo techo de palma','Ocean view under a palapa roof'),
       cama=('Techo de palma','Palapa roof'),
-      orienta=('Techo de palma, abierta al aire','Palm roof, open to the air'),
+      orienta=('Abierta al aire','Open to the air'),
       corta=('Duermes bajo la palma y con el aire del mar; no lleva aire acondicionado y ese es justo el punto. La más fresca entre noviembre y abril.',
              'You sleep under the palm roof with sea air; there is no air conditioning and that is precisely the point. The coolest room from November to April.'),
       larga=(['El techo de palapa y la ventilación cruzada mantienen la suite fresca sin aire acondicionado, que es como se ha dormido en esta costa desde siempre.',
@@ -344,6 +347,7 @@ def barra(lang, clave, prof=0, slug=None):
   </a>
   <a class="reservar" href="{url(lang,'reservar',prof)}">{t['reservar']}</a>
 </header>
+{'' if clave == 'reservar' else f'<a class="reservar-movil" href="{url(lang,"reservar",prof)}">{t["reservar"]}</a>'}
 
 <div class="cortina" id="cortina" aria-hidden="true">
   <div class="velo"></div>

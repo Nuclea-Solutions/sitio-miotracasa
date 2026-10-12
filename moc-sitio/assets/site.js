@@ -159,6 +159,14 @@
     });
   }
 
+  /* ---------- reservar fijo en teléfono, ya pasada la portada ---------- */
+  var fijo = document.querySelector('.reservar-movil');
+  if (fijo) {
+    var revisarFijo = function () { fijo.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6); };
+    window.addEventListener('scroll', revisarFijo, { passive: true });
+    revisarFijo();
+  }
+
   /* ---------- apariciones al entrar en pantalla ---------- */
   var reveladas = document.querySelectorAll('.rev');
   if (reveladas.length) {
