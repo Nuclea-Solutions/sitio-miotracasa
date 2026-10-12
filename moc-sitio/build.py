@@ -82,7 +82,7 @@ SUITES = [
 
  dict(slug='sol', tipo='suite', nombre='Suite Sol', precio=360,
       m2=80, huespedes=2,
-      fotos=('suite-sol-recamara', 'suite-sol-sala', 'casa-patio-arcos'),
+      fotos=('suite-sol-recamara', 'casa-patio-arcos', 'casa-corredor'),
       rasgo=('Vista al jardín','Garden view'),
       cama=('Planta baja','Ground floor'),
       orienta=('Interior, al jardín','Interior, onto the garden'),
@@ -97,7 +97,7 @@ SUITES = [
 
  dict(slug='luna', tipo='jr', nombre='Jr. Suite Luna', precio=240,
       m2=30, huespedes=2,
-      fotos=('suite-luna-recamara', 'suite-luna-entrada', 'casa-patio-arcos'),
+      fotos=('suite-luna-recamara', 'suite-luna-sala', 'suite-luna-entrada', 'casa-patio-arcos'),
       rasgo=('Vista al jardín, sin escaleras','Garden view, step-free'),
       cama=('Cama queen','Queen bed'),
       orienta=('Interior, al jardín','Interior, onto the garden'),
@@ -145,9 +145,9 @@ FOTOS = {
  'suite-palapa-dosel':      ('Cama con mosquitero bajo la palapa','Canopy bed under the palapa'),
  'suite-palapa-sala':       ('Sala en la terraza de la Suite Palapa','Lounge on the Suite Palapa terrace'),
  'suite-sol-recamara':      ('Recámara de la Suite Sol','Suite Sol bedroom'),
- 'suite-sol-sala':          ('Salita de la Suite Sol','Suite Sol sitting room'),
  'suite-luna-recamara':     ('Recámara de la Jr. Suite Luna','Jr. Suite Luna bedroom'),
  'suite-luna-entrada':      ('Entrada de la Jr. Suite Luna','Entrance to Jr. Suite Luna'),
+ 'suite-luna-sala':         ('Sala de la Jr. Suite Luna','Jr. Suite Luna sitting room'),
  'suite-arena-recamara':    ('Jr. Suite Arena, dos camas individuales','Jr. Suite Arena, two single beds'),
  'suite-arena-bano':        ('Baño de la Jr. Suite Arena','Jr. Suite Arena bathroom'),
  'suite-arena-escritorio':  ('Escritorio de la Jr. Suite Arena, junto a la ventana al patio','Jr. Suite Arena desk, by the window onto the courtyard'),
