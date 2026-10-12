@@ -609,3 +609,9 @@ p{text-wrap:pretty}
   .fila{grid-template-columns:1fr}
   .tabla-politicas > div{grid-template-columns:1fr;gap:.4rem}
 }
+
+
+/* correccion: el titular de portada se encajonaba a 22ch del contenedor */
+.portada .txt{max-width:min(92vw,1000px)}
+.portada h1{max-width:17ch;margin-inline:auto;text-wrap:balance}
+@media (max-width:760px){.portada .txt{max-width:94vw}.portada h1{max-width:15ch}}
