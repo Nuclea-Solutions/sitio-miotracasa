@@ -139,7 +139,7 @@ def pagina_index(lang):
     jsonld = {
       "@context":"https://schema.org","@type":"Hotel","name":"Mi Otra Casa","alternateName":"MOC",
       "url": DOMINIO + ('/' if lang=='es' else '/en/'),
-      "image": DOMINIO + "/assets/compartir.jpg",
+      "image": DOMINIO + "/assets/compartir/inicio.jpg",
       "description": x['desc'][k],
       "address":{"@type":"PostalAddress","streetAddress":"Marlin 18","addressLocality":"Sayulita",
                  "addressRegion":"Nayarit","postalCode":"63734","addressCountry":"MX"},
@@ -357,7 +357,8 @@ def pagina_suite(lang, s):
     t = T[lang]; k = i(lang); prof = 1
     a = base(lang, prof) + ('../assets/' if lang == 'en' else 'assets/')
     titulo = f"{s['nombre']} — Mi Otra Casa, Sayulita"
-    desc = s['corta'][k][:155]
+    # la descripción se corta en palabra completa: es lo que se lee al compartir y en Google
+    desc = s['corta'][k] if len(s['corta'][k]) <= 155 else s['corta'][k][:154].rsplit(' ', 1)[0].rstrip(',;:') + '…'
     otras = [o for o in SUITES if o['slug'] != s['slug']][:3]
     otras_html = '\n'.join(f'''      <a href="{url(lang,'suite',prof,o['slug'])}">
         <div class="foto">{foto(a, o['fotos'][0], lang, 'otras', alt=o['nombre'])}</div>
@@ -856,7 +857,8 @@ def pagina_404():
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Página no encontrada — Mi Otra Casa</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="{r}assets/favicon-32.png" sizes="32x32">
+<link rel="icon" href="{r}assets/favicon.ico" sizes="48x48">
+<link rel="icon" href="{r}assets/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
@@ -872,6 +874,15 @@ def pagina_404():
 </body>
 </html>
 '''
+
+def manifiesto():
+    return json.dumps({
+      "name": "Mi Otra Casa", "short_name": "Mi Otra Casa", "lang": "es",
+      "start_url": "./", "scope": "./", "display": "browser",
+      "background_color": "#FDFDFD", "theme_color": "#FDFDFD",
+      "icons": [{"src": "assets/icono-192.png", "sizes": "192x192", "type": "image/png"},
+                {"src": "assets/icono-512.png", "sizes": "512x512", "type": "image/png"}]
+    }, ensure_ascii=False, indent=2) + '\n'
 
 def sitemap():
     urls = []
@@ -905,6 +916,7 @@ def main():
         for s in SUITES:
             hechas.append(escribir(pre + RUTAS[lang]['suite'](s['slug']), pagina_suite(lang, s)))
     hechas.append(escribir('404.html', pagina_404()))
+    hechas.append(escribir('site.webmanifest', manifiesto()))
     hechas.append(escribir('sitemap.xml', sitemap()))
     hechas.append(escribir('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {DOMINIO}/sitemap.xml\n'))
     print(f'{len(hechas)} archivos')

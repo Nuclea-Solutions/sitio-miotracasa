@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://miotracasa.mx/sitemap.xml
+Sitemap: https://nuclea-solutions.github.io/sitio-miotracasa/sitemap.xml

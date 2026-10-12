@@ -43,13 +43,23 @@ Para agregar o cambiar una foto:
    va en `FOCO`.
 3. `python3 pages.py`.
 
+## Imágenes para compartir e íconos
+`compartir.py` genera `assets/compartir/` (1200×630: la portada y una por suite, con
+su nombre) y los íconos: `favicon.ico` (16, 32 y 48), `favicon-32.png`,
+`apple-touch-icon.png` (180) e `icono-192.png` / `icono-512.png` del manifest.
+Se corre después de `fotos.py` y necesita la fuente Marcellus:
+
+    python3 compartir.py <ruta a Marcellus-Regular.ttf>
+
 ## Publicar con GitHub Pages
 1. Subir el contenido de esta carpeta a la raíz del repositorio.
 2. Settings → Pages → Source: *Deploy from a branch* → `main`, carpeta `/ (root)`.
 3. Dominio propio: Settings → Pages → Custom domain → `miotracasa.mx`,
    y apuntar en el DNS los registros A de GitHub Pages.
-   Al hacerlo, cambiar `RAIZ_WEB` en `build.py` de `/sitio-miotracasa/` a `/` y
-   regenerar: el 404 usa esa ruta porque se sirve a cualquier profundidad.
+   Al hacerlo, cambiar `DOMINIO` en `build.py` a `https://miotracasa.mx` y regenerar.
+   De ahí salen las canónicas, el sitemap, la ruta del 404 y las imágenes para
+   compartir: si `DOMINIO` apunta a un servidor donde el sitio no está, los enlaces
+   compartidos en WhatsApp o Facebook salen sin miniatura.
 
 ## Antes de publicar — pendientes reales
 

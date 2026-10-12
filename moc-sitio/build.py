@@ -6,12 +6,16 @@ Escribe el sitio en español en la raíz y en inglés bajo /en/.
     python3 build.py
 """
 import os, re, shutil, html
+from urllib.parse import urlparse
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))   # el sitio vive junto a los generadores
-DOMINIO = 'https://miotracasa.mx'
-# ruta del sitio en el servidor; el 404 la necesita porque se sirve a cualquier profundidad.
-# En GitHub Pages es /sitio-miotracasa/; al conectar miotracasa.mx pasa a ser /
-RAIZ_WEB = '/sitio-miotracasa/'
+# Dirección pública del sitio. Las canónicas, el sitemap y las imágenes para compartir la usan
+# completa, así que tiene que ser donde el sitio está publicado de verdad: si apunta a otro
+# servidor, WhatsApp, Facebook y Google no encuentran la miniatura.
+# Al conectar el dominio propio: DOMINIO = 'https://miotracasa.mx'
+DOMINIO = 'https://nuclea-solutions.github.io/sitio-miotracasa'
+# ruta del sitio dentro del servidor; el 404 la necesita porque se sirve a cualquier profundidad
+RAIZ_WEB = urlparse(DOMINIO).path.rstrip('/') + '/'
 
 # ---------------------------------------------------------------- datos
 
@@ -308,6 +312,10 @@ def cabeza(lang, titulo, desc, clave, prof=0, slug=None, extra=''):
     canon = canon.replace('/index.html', '/')
     otro_url = f"{DOMINIO}/{'' if lang=='en' else 'en/'}" + (RUTAS[t['otro']]['suite'](slug) if clave=='suite' else RUTAS[t['otro']][clave])
     otro_url = otro_url.replace('/index.html', '/')
+    # cada suite comparte su propia foto; el resto, la portada
+    imagen = f"{DOMINIO}/assets/compartir/{slug if clave == 'suite' else 'inicio'}.jpg"
+    alt_imagen = next((s['nombre'] for s in SUITES if s['slug'] == slug), None) if clave == 'suite' else None
+    alt_imagen = f'{alt_imagen}, Mi Otra Casa, Sayulita' if alt_imagen else 'Mi Otra Casa, hotel boutique en Sayulita, al atardecer'
     return f'''<!DOCTYPE html>
 <html lang="{lang}">
 <head>
@@ -326,12 +334,19 @@ def cabeza(lang, titulo, desc, clave, prof=0, slug=None, extra=''):
 <meta property="og:title" content="{html.escape(titulo)}">
 <meta property="og:description" content="{html.escape(desc)}">
 <meta property="og:url" content="{canon}">
-<meta property="og:image" content="{DOMINIO}/assets/compartir.jpg">
+<meta property="og:image" content="{imagen}">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{html.escape(alt_imagen)}">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="{a}favicon-32.png" sizes="32x32">
+<meta name="twitter:title" content="{html.escape(titulo)}">
+<meta name="twitter:description" content="{html.escape(desc)}">
+<meta name="twitter:image" content="{imagen}">
+<link rel="icon" href="{a}favicon.ico" sizes="48x48">
+<link rel="icon" href="{a}favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="{a}apple-touch-icon.png">
+<link rel="manifest" href="{base(lang, prof)}{'../' if lang == 'en' else ''}site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
