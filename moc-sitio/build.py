@@ -66,7 +66,7 @@ SUITES = [
 
  dict(slug='palapa', tipo='suite', nombre='Suite Palapa', precio=360,
       m2=60, huespedes=2,
-      fotos=('suite-palapa-recamara', 'suite-palapa-terraza', 'suite-palapa-dosel', 'suite-palapa-sala'),
+      fotos=('suite-palapa-recamara', 'suite-palapa-sala', 'suite-palapa-dosel', 'suite-palapa-terraza'),
       rasgo=('Vista al mar bajo techo de palma','Ocean view under a palapa roof'),
       cama=('Techo de palma','Palapa roof'),
       orienta=('Abierta al aire','Open to the air'),
@@ -341,9 +341,14 @@ def cabeza(lang, titulo, desc, clave, prof=0, slug=None, extra=''):
 <a class="salto" href="#contenido">{t['saltar']}</a>
 '''
 
+# Por ahora el botón Reservar de la barra lleva a la lista de suites. Cuando el formulario de
+# reservar.html tenga destino (Formspree o motor de reservas), volver a ('reservar', '').
+BOTON_RESERVAR = ('suites', '#filtros')
+
 def barra(lang, clave, prof=0, slug=None):
     t = T[lang]; a = base(lang, prof) + ('../assets/' if lang == 'en' else 'assets/')
     def act(c): return ' aria-current="page"' if c == clave else ''
+    destino = url(lang, BOTON_RESERVAR[0], prof) + BOTON_RESERVAR[1]
     return f'''
 <header class="barra">
   <button class="menu-btn" id="abrir" aria-expanded="false" aria-controls="cortina">
@@ -352,9 +357,9 @@ def barra(lang, clave, prof=0, slug=None):
   <a class="logo" href="{url(lang,'index',prof)}" aria-label="Mi Otra Casa">
     <img src="{a}logo-mi-otra-casa.png" width="900" height="125" alt="Mi Otra Casa">
   </a>
-  <a class="reservar" href="{url(lang,'reservar',prof)}">{t['reservar']}</a>
+  <a class="reservar" href="{destino}">{t['reservar']}</a>
 </header>
-{'' if clave == 'reservar' else f'<a class="reservar-movil" href="{url(lang,"reservar",prof)}">{t["reservar"]}</a>'}
+{'' if clave == BOTON_RESERVAR[0] == 'reservar' else f'<a class="reservar-movil" href="{destino}">{t["reservar"]}</a>'}
 
 <div class="cortina" id="cortina" aria-hidden="true">
   <div class="velo"></div>
